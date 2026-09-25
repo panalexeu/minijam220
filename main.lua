@@ -6,7 +6,7 @@ function love.load()
     require "player"
     require "level"
     require "item"
-    require "ore_block"
+    require "oreblock"
 
     -- game variables/constants 
     gamestate = 'load'

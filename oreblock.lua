@@ -1,6 +1,6 @@
-ore_block = class:new() 
+oreblock = class:new() 
 
-function ore_block:init(x, y)
+function oreblock:init(x, y)
     self.x, self.y = x, y 
     self.ox, self.oy =  itemsize / 2, itemsize / 2 
 
@@ -9,10 +9,10 @@ function ore_block:init(x, y)
     self.quad = quads['oreblock_df'][1]
 end 
 
-function ore_block:update(dt)
+function oreblock:update(dt)
 end
 
-function ore_block:draw() 
+function oreblock:draw() 
     love.graphics.setColor(self.color)
     love.graphics.draw(self.img, self.quad, self.x, self.y, 0, 1, 1, self.ox, self.oy)
 end 
