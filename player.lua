@@ -1,6 +1,6 @@
 player = animatable:new() 
 
-function player:init(x, y, mv_vx, mv_vy) 
+function player:init(x, y, mv_vx, mv_vy, aurasize) 
     self.x, self.y = x, y
     self.mv_vx, self.mv_vy = mv_vx, mv_vy 
     self.vx, self.vy = self.mv_vx, self.mv_vy
@@ -40,14 +40,10 @@ function player:init(x, y, mv_vx, mv_vy)
     self:set_anim(self.anim_lookup[self.action]['d'])
 
     -- light aura 
-    self.aurasize = tilesize * 3 
+    self.aurasize = aurasize
     self.aura_ox, self.aura_oy = self.aurasize / 2, self.aurasize / 2
-    local aura_data = love.image.newImageData(self.aurasize, self.aurasize)
-    aura_data:mapPixel(function(x,y)
-        local d = math.sqrt((x-self.aurasize/2)^2 + (y-self.aurasize/2)^2) / (self.aurasize/2)
-        return 1,1,1, math.max(0, 1-d)^2
-    end)
-    self.aura_img = love.graphics.newImage(aura_data)
+    self.aura_img = create_auraimg(self.aurasize)
+    self.aura_clr = {1, 0.85, 0.45, 1}
 end 
 
 function player:update(dt)
@@ -111,8 +107,12 @@ end
 
 function player:draw() 
     love.graphics.setColor(1,1,1,1) 
-    love.graphics.draw(self.aura_img, self.x, self.y, 0, 1, 1, self.aura_ox, self.aura_oy)
     love.graphics.draw(self.img, self.quad, self.x, self.y, 0, 1, 1, self.ox, self.oy)
+end 
+
+function player:draw_aura()
+    love.graphics.setColor(self.aura_clr)
+    love.graphics.draw(self.aura_img, self.x, self.y, 0, 1, 1, self.aura_ox, self.aura_oy)
 end 
 
 function player:drag_item()

@@ -1,15 +1,20 @@
 function level_load() 
     gamestate = 'level'
 
-    player_obj = player:new(game_w/2 , game_h/2, 100, 100)
-    item_obj = item:new(game_w/2+32, game_h/2+32, 240, 600)
-    oreblock_obj = oreblock:new(game_w/2, game_h/2)
+    player_obj = player:new(game_w/2 , game_h/2, 100, 100, 48)
+    item_obj = item:new(game_w/2+32, game_h/2+32, 240, 600, 32)
+    oreblock_obj = oreblock:new(game_w/2, game_h/2, 32)
     objects = {
         item_obj,
         oreblock_obj,
         player_obj, 
 
     }
+
+    -- lighting system 
+    light_canvas = love.graphics.newCanvas(game_w, game_h)
+    ambient_color = {0.30, 0.33, 0.45, 1}
+    back_color    = {0.18, 0.17, 0.22, 1}
 end 
 
 function level_update(dt)
@@ -22,11 +27,23 @@ function level_update(dt)
 end 
 
 function level_draw() 
-    love.graphics.clear(0.5,0.5,0.5,1)
-
+    love.graphics.setCanvas(light_canvas)
+    love.graphics.setBlendMode('add')
+    love.graphics.clear(ambient_color)
     for i,obj in ipairs(objects) do 
-        obj:draw()
+            obj:draw_aura()
     end
+    love.graphics.setBlendMode('alpha')
+
+    love.graphics.setCanvas(screen)
+    love.graphics.clear(back_color)
+    for i,obj in ipairs(objects) do 
+            obj:draw()
+    end
+
+    love.graphics.setBlendMode('multiply', 'premultiplied')
+    love.graphics.draw(light_canvas)
+    love.graphics.setBlendMode('alpha')
 end 
 
 function level_keypressed(key)
