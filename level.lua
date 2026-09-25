@@ -22,7 +22,7 @@ function level_update(dt)
 end 
 
 function level_draw() 
-    love.graphics.clear(0,0,0,1)
+    love.graphics.clear(0.5,0.5,0.5,1)
 
     for i,obj in ipairs(objects) do 
         obj:draw()

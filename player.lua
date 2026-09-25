@@ -38,6 +38,16 @@ function player:init(x, y, mv_vx, mv_vy)
     } 
     self.action = 'walk'
     self:set_anim(self.anim_lookup[self.action]['d'])
+
+    -- light aura 
+    self.aurasize = tilesize * 3 
+    self.aura_ox, self.aura_oy = self.aurasize / 2, self.aurasize / 2
+    local aura_data = love.image.newImageData(self.aurasize, self.aurasize)
+    aura_data:mapPixel(function(x,y)
+        local d = math.sqrt((x-self.aurasize/2)^2 + (y-self.aurasize/2)^2) / (self.aurasize/2)
+        return 1,1,1, math.max(0, 1-d)^2
+    end)
+    self.aura_img = love.graphics.newImage(aura_data)
 end 
 
 function player:update(dt)
@@ -101,6 +111,7 @@ end
 
 function player:draw() 
     love.graphics.setColor(1,1,1,1) 
+    love.graphics.draw(self.aura_img, self.x, self.y, 0, 1, 1, self.aura_ox, self.aura_oy)
     love.graphics.draw(self.img, self.quad, self.x, self.y, 0, 1, 1, self.ox, self.oy)
 end 
 
