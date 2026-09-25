@@ -1,7 +1,7 @@
 item = class:new() 
 
-function item:init()
-    self.x, self.y = nil, nil
+function item:init(x, y)
+    self.x, self.y = x, y
     self.ox, self.oy =  itemsize / 2, itemsize / 2 
     self.color = {0.4, 0.8, 0.4, 1}
     self.img = sprites['ore']

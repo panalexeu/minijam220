@@ -2,16 +2,23 @@ function level_load()
     gamestate = 'level'
 
     player_obj = player:new(game_w/2 , game_h/2, 100, 100)
-    item = item:new()
-    player:set_carry_item(item)
+    item_obj = item:new(game_w/2+32, game_h/2+32)
     objects = {
-        player_obj, 
+        item_obj,
+        player_obj
     }
 end 
 
 function level_update(dt)
     for i,obj in ipairs(objects) do 
         obj:update(dt)
+        if obj.__baseclass == item then
+            if obj_overlap(obj, player_obj) then
+                player:set_carry_item(obj)
+            end 
+        end
+        
+        
     end 
 end 
 
@@ -37,4 +44,11 @@ function level_keyreleased(key)
     elseif key == 'w' then player_obj.mv_vec[2] = 0
     elseif key == 's' then player_obj.mv_vec[2] = 0
     end
+end 
+
+-- collisions 
+function obj_overlap(obj, player_obj)
+    -- AABB overlap (axis-aligned bounding box)
+    return math.abs(obj.x - player_obj.x) < obj.ox + player_obj.ox 
+           and math.abs(obj.y - player_obj.y) < obj.oy + player_obj.oy
 end 
