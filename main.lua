@@ -27,10 +27,16 @@ function love.load()
     sprites = {} 
     quads = {} 
     load_sprite('player', 'player.png')
+    -- walk 
     load_quads('player_wd', 0, 0, 16, 4)
     load_quads('player_wu', 0, 1, 16, 4)
     load_quads('player_wl', 0, 2, 16, 4)
     load_quads('player_wr', 0, 3, 16, 4)
+    -- carry
+    load_quads('player_cd', 12, 0, 16, 4)
+    load_quads('player_cu', 12, 1, 16, 4)
+    load_quads('player_cl', 12, 2, 16, 4)
+    load_quads('player_cr', 12, 3, 16, 4)
     load_sprite('ore', 'ore.png')
     load_quads('ore_df', 0, 0, 8, 1)
 

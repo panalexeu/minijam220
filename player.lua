@@ -11,14 +11,23 @@ function player:init(x, y, mv_vx, mv_vy)
 
     -- anims
     animatable.init(self) -- animatable baseclass 
+    self.img = sprites['player']
     self.anim_speed = {
         player_wd = 0.25, 
         player_wu = 0.25, 
         player_wl = 0.25,
-        player_wr = 0.25 
+        player_wr = 0.25, 
+        player_cd = 0.25, 
+        player_cu = 0.25, 
+        player_cl = 0.25,
+        player_cr = 0.25, 
     }
-    self.img = sprites['player']
-    self:set_anim('player_wd')
+    self.anim_lookup = {
+        walk = {l='player_wl',r='player_wr',u='player_wu',d='player_wd'}, 
+        carry = {l='player_cl',r='player_cr',u='player_cu',d='player_cd'} 
+    } 
+    self.action = 'walk'
+    self:set_anim(self.anim_lookup[self.action]['d'])
 end 
 
 function player:update(dt)
@@ -27,14 +36,21 @@ function player:update(dt)
     self.x = self.x + (norm_vec[1] * self.vx * dt)
     self.y = self.y + (norm_vec[2] * self.vy * dt)
 
+    -- anims 
+    if self.carry_item ~= nil then 
+        self.action = 'carry'
+    else 
+        self.action = 'walk'
+    end 
+
     if self.mv_vec[1] == -1 then 
-        self:set_anim('player_wl')
+        self:set_anim(self.anim_lookup[self.action]['l'])
     elseif self.mv_vec[1] == 1 then 
-        self:set_anim('player_wr')
+        self:set_anim(self.anim_lookup[self.action]['r'])
     elseif self.mv_vec[2] == -1 then
-        self:set_anim('player_wu') 
+        self:set_anim(self.anim_lookup[self.action]['u']) 
     elseif self.mv_vec[2] == 1 then 
-        self:set_anim('player_wd')
+        self:set_anim(self.anim_lookup[self.action]['d'])
     else
         -- if no movement => use the last frame of movement animation 
         self.quad = quads[self.anim_key][#quads[self.anim_key]]
@@ -47,7 +63,7 @@ end
 
 function player:draw() 
     if self.carry_item ~= nil then
-        local offset_y = 12
+        local offset_y = 10
         self.carry_item.x, self.carry_item.y = self.x, self.y - offset_y
         self.carry_item:draw()
     end 
