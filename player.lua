@@ -34,7 +34,7 @@ function player:init(x, y, mv_vx, mv_vy)
     self.anim_lookup = {
         walk = {l='player_wl',r='player_wr',u='player_wu',d='player_wd'}, 
         carry = {l='player_cl',r='player_cr',u='player_cu',d='player_cd'}, 
-        punch = {l='player_pl', r='player_pr', u='player_pu', d='player_pd'}
+        punch = {l='player_pl', r='player_pr', u='player_pu', d='player_pd'}, 
     } 
     self.action = 'walk'
     self:set_anim(self.anim_lookup[self.action]['d'])
