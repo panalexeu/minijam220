@@ -6,6 +6,7 @@ function player:init(x, y, mv_vx, mv_vy)
     self.vx, self.vy = self.mv_vx, self.mv_vy
     self.mv, self.dir_y = 0, 0 
     self.mv_vec = {0, 0}
+    self.dir_vec = {1, 0} -- in idle => look down
     self.ox, self.oy = tilesize / 2, tilesize / 2
     self.carry_item = nil 
 
@@ -31,12 +32,12 @@ function player:init(x, y, mv_vx, mv_vy)
 end 
 
 function player:update(dt)
-    if self.carry_item ~= nil then self:drag_item() end 
-
     -- normalize mv_vec by its length so there is no diagonal movement speedup
     local norm_vec = vec_d_scalar(self.mv_vec, vec_len(self.mv_vec))
     self.x = self.x + (norm_vec[1] * self.vx * dt)
     self.y = self.y + (norm_vec[2] * self.vy * dt)
+
+    if self.carry_item ~= nil and self.carry_item:holdable() then self:drag_item() end 
 
     -- anims 
     if self.carry_item ~= nil then 
@@ -58,8 +59,10 @@ function player:update(dt)
         self.quad = quads[self.anim_key][#quads[self.anim_key]]
     end
 
+    -- if player moves => animate, update direction 
     if vec_len(self.mv_vec) >= 1 then
         self:animate(dt)
+        self.dir_vec = vec_cat(self.mv_vec, {}) -- just vec copy with vec_cat 
     end 
 end 
 
@@ -68,11 +71,13 @@ function player:draw()
     love.graphics.draw(self.img, self.quad, self.x, self.y, 0, 1, 1, self.ox, self.oy)
 end 
 
-function player:set_carry_item(obj)
-    self.carry_item = obj 
-end 
-
 function player:drag_item()
     local offset_y = 10
     self.carry_item.x, self.carry_item.y = self.x, self.y - offset_y
+end 
+
+function player:throw_item() 
+    self.carry_item.mv_vec = self.dir_vec
+    self.carry_item = nil
+    print(self.carry_item)
 end 

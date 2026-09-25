@@ -2,7 +2,7 @@ function level_load()
     gamestate = 'level'
 
     player_obj = player:new(game_w/2 , game_h/2, 100, 100)
-    item_obj = item:new(game_w/2+32, game_h/2+32)
+    item_obj = item:new(game_w/2+32, game_h/2+32, 240, 600)
     objects = {
         item_obj,
         player_obj
@@ -13,12 +13,8 @@ function level_update(dt)
     for i,obj in ipairs(objects) do 
         obj:update(dt)
         if obj.__baseclass == item then
-            if obj_overlap(obj, player_obj) then
-                player:set_carry_item(obj)
-            end 
+            if obj_overlap(obj, player_obj) and obj:holdable() then player_obj.carry_item = obj end 
         end
-        
-        
     end 
 end 
 
@@ -35,6 +31,7 @@ function level_keypressed(key)
     elseif key == 'd' then player_obj.mv_vec[1] = 1 
     elseif key == 'w' then player_obj.mv_vec[2] = -1
     elseif key == 's' then player_obj.mv_vec[2] = 1
+    elseif key == 'e' and player_obj.carry_item ~= nil then player_obj:throw_item() 
     end
 end 
 
