@@ -1,23 +1,38 @@
 function love.load() 
-    require "class"
     require "utils"
+    require "class"
+    
+    require "animatable"
+    require "player"
+    require "level"
 
     -- game variables/constants 
     gamestate = 'load'
     tilesize = 16 
+    game_w, game_h = 400, 224 
+    
+    -- window/screen stuff 
+    love.window.setMode(game_w, game_h)
 
     sprites = {} 
     quads = {} 
     load_sprite('player', 'player.png')
     load_quads('player_wd', 0, 0, 16, 4)
+
+    level_load()
 end 
 
 function love.draw() 
+    if gamestate == 'level' then 
+        level_draw()
+    end
 end 
 
 function love.update(dt)
+    if gamestate == 'level' then 
+        level_update(dt)
+    end 
 end 
-
 
 function load_sprite(key, path) 
     sprites[key] = love.graphics.newImage('assets/' .. path)
