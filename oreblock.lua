@@ -15,7 +15,7 @@ function oreblock:init(x, y, aurasize)
     animatable.init(self)
     self.img = sprites['oreblock']
     self.base_quad = quads['oreblock_df'][1]
-    self.quad = quads['oreblock_break'][1]
+    self:set_default_quad()
     self.anim_speed = {
         oreblock_break = 1
     }
@@ -30,12 +30,11 @@ end
 function oreblock:update(dt)
     if self.t ~= nil then 
         self.t = self.t - dt
-        print(self.t)
-       
+
         if self.t <= 0 then 
             self.is_broken = true
         end
-        
+
         self:animate(dt)
     end  
 end
@@ -65,4 +64,9 @@ end
 
 function oreblock:nil_break_t()
     self.t = nil
+    self:set_default_quad()
 end 
+
+function oreblock:set_default_quad()
+    self.quad = quads['oreblock_break'][1]
+end
