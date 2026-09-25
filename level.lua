@@ -3,12 +3,12 @@ function level_load()
 
     player_obj = player:new(game_w/2 , game_h/2, 100, 100, 48)
     item_obj = item:new(game_w/2+32, game_h/2+32, 240, 600, 32)
-    oreblock_obj = oreblock:new(game_w/2, game_h/2, 32)
     objects = {
         item_obj,
-        oreblock_obj,
+        oreblock:new(game_w/2, game_h/2, 32),
+        oreblock:new(game_w/2 + 8, game_h/2, 32),
+        oreblock:new(game_w/2 + 8, game_h/2 + 8, 32),
         player_obj, 
-
     }
 
     -- lighting system 
