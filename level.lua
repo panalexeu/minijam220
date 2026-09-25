@@ -3,13 +3,15 @@ function level_load()
 
     player_obj = player:new(game_w/2 , game_h/2, 100, 100, 48)
     item_obj = item:new(game_w/2+32, game_h/2+32, 240, 600, 32)
+    rails = get_rails()
     objects = {
         item_obj,
-        oreblock:new(game_w/2, game_h/2, 32),
         oreblock:new(game_w/2 + 8, game_h/2, 32),
-        oreblock:new(game_w/2 + 8, game_h/2 + 8, 32),
+        oreblock:new(game_w/2 + 16, game_h/2, 32),
+        oreblock:new(game_w/2 + 16, game_h/2 + 8, 32),
         player_obj, 
     }
+    objects = vec_cat(rails, objects)
     active_obj = nil
 
     -- lighting system 
@@ -95,3 +97,12 @@ end
 function mouse_overlap(obj, x, y)
     return (x > obj.x - obj.ox) and (x < obj.x + obj.ox) and (y > obj.y - obj.oy) and (y < obj.y + obj.oy)
 end
+
+-- stuff 
+function get_rails() 
+    local t = {}
+    for i=0,game_h/2 do 
+        table.insert(t, rail:new(game_w / 2, i*tilesize))
+    end 
+    return t 
+end 

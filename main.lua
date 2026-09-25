@@ -8,6 +8,7 @@ function love.load()
     require "item"
     require "oreblock"
     require "aura"
+    require "tile"
 
     -- game variables/constants 
     gamestate = 'load'
@@ -55,6 +56,8 @@ function love.load()
     load_sprite('oreblock', 'oreblock.png') 
     load_quads('oreblock_df', 0, 0, 8, 1) 
     load_quads('oreblock_break', 1, 0, 8, 5)
+    load_sprite('rail', 'rail.png')
+    load_quads('rail_df', 0, 0, 16, 1)
 
     level_load()
 end 
