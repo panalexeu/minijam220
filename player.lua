@@ -12,8 +12,8 @@ function player:init(x, y, move_vx, move_vy)
 end 
 
 function player:update(dt)
-    self.x = self.dir_x * self.vx * dt
-    self.y = self.dir_y * self.vy * dt 
+    self.x = self.x + (self.dir_x * self.vx * dt)
+    self.y = self.y + (self.dir_y * self.vy * dt)
 end 
 
 function player:draw() 

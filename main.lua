@@ -34,6 +34,18 @@ function love.update(dt)
     end 
 end 
 
+function love.keypressed(key)
+    if gamestate == 'level' then 
+        level_keypressed(key)
+    end 
+end
+
+function love.keyreleased(key)
+    if gamestate == 'level' then 
+        level_keyreleased(key)
+    end 
+end
+
 function load_sprite(key, path) 
     sprites[key] = love.graphics.newImage('assets/' .. path)
 end 
