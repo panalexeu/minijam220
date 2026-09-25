@@ -18,10 +18,14 @@ function level_load()
 end 
 
 function level_update(dt)
+    local mouse_x, mouse_y = mousepos2gamepos(love.mouse.getPosition())
+    
     for i,obj in ipairs(objects) do 
         obj:update(dt)
         if obj.__baseclass == item then
             if obj_overlap(obj, player_obj) and obj:holdable() then player_obj.carry_item = obj end 
+        elseif obj.__baseclass == oreblock then 
+            if mouse_overlap(obj, mouse_x, mouse_y) then obj.is_active = true else obj.is_active = false end 
         end
     end 
 end 
@@ -71,3 +75,7 @@ function obj_overlap(obj, player_obj)
     return math.abs(obj.x - player_obj.x) < obj.ox + player_obj.ox 
            and math.abs(obj.y - player_obj.y) < obj.oy + player_obj.oy
 end 
+
+function mouse_overlap(obj, x, y)
+    return (x > obj.x - obj.ox) and (x < obj.x + obj.ox) and (y > obj.y - obj.oy) and (y < obj.y + obj.oy)
+end

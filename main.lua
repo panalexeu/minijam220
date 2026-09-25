@@ -109,3 +109,7 @@ function load_quads(key, x_offset, y_offset, tilesize, frames)
     end 
     quads[key] = t 
 end 
+
+function mousepos2gamepos(x, y)
+    return (x - screen_offset_x) / screen_scale, (y - screen_offset_y) / screen_scale
+end
