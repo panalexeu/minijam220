@@ -1,7 +1,7 @@
 function level_load() 
     gamestate = 'level'
 
-    player_obj = player:new(game_w/2 , game_h/2, 200, 100)
+    player_obj = player:new(game_w/2 , game_h/2, 100, 50)
     objects = {
         player_obj
     }

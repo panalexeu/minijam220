@@ -18,6 +18,9 @@ function love.load()
     quads = {} 
     load_sprite('player', 'player.png')
     load_quads('player_wd', 0, 0, 16, 4)
+    load_quads('player_wu', 0, 1, 16, 4)
+    load_quads('player_wl', 0, 2, 16, 4)
+    load_quads('player_wr', 0, 3, 16, 4)
 
     level_load()
 end 
