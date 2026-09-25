@@ -10,10 +10,17 @@ function love.load()
     -- game variables/constants 
     gamestate = 'load'
     tilesize = 16 
-    game_w, game_h = 400, 224 
     
     -- window/screen stuff 
-    love.window.setMode(game_w, game_h)
+    game_w, game_h = 400, 224 
+    window_w, window_h = 800, 448
+    love.window.setMode(window_w, window_h)
+    screen = love.graphics.newCanvas(game_w, game_h)
+    screen_scale = math.min(window_w / game_w, window_h / game_h)
+    screen_offset_x = math.floor((window_w - game_w * screen_scale) / 2)
+    screen_offset_y = math.floor((window_h - game_h * screen_scale) / 2)
+    love.graphics.setDefaultFilter('nearest', 'nearest')
+    love.window.setTitle('minijam220')
 
     sprites = {} 
     quads = {} 
@@ -27,9 +34,15 @@ function love.load()
 end 
 
 function love.draw() 
+    love.graphics.setCanvas(screen)
+
     if gamestate == 'level' then 
         level_draw()
     end
+
+    love.graphics.setCanvas() 
+    love.graphics.draw(screen, screen_offset_x, screen_offset_y, 0, screen_scale, screen_scale)
+
 end 
 
 function love.update(dt)
