@@ -3,9 +3,12 @@ function level_load()
 
     player_obj = player:new(game_w/2 , game_h/2, 100, 100)
     item_obj = item:new(game_w/2+32, game_h/2+32, 240, 600)
+    ore_block_obj = ore_block:new(game_w/2, game_h/2)
     objects = {
         item_obj,
-        player_obj
+        ore_block_obj,
+        player_obj, 
+
     }
 end 
 

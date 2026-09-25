@@ -5,8 +5,8 @@ function love.load()
     require "animatable"
     require "player"
     require "level"
-    require "crystal"
     require "item"
+    require "ore_block"
 
     -- game variables/constants 
     gamestate = 'load'
@@ -51,6 +51,8 @@ function love.load()
 
     load_sprite('ore', 'ore.png')
     load_quads('ore_df', 0, 0, 8, 1)
+    load_sprite('oreblock', 'oreblock.png') 
+    load_quads('oreblock_df', 0, 0, 8, 1) 
 
     level_load()
 end 
