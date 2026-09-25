@@ -5,8 +5,12 @@ function player:init(x, y, mv_vx, mv_vy)
     self.mv_vx, self.mv_vy = mv_vx, mv_vy 
     self.vx, self.vy = self.mv_vx, self.mv_vy
     self.mv, self.dir_y = 0, 0 
+    -- movement vector 
     self.mv_vec = {0, 0}
+    -- last movement direction vector (where character faces)
     self.dir_vec = {1, 0} -- in idle => look down
+    -- some action performing vecotr (e.g. punch, throw, etc.)
+    self.action_vec = {0, 0} 
     self.ox, self.oy = tilesize / 2, tilesize / 2
     self.carry_item = nil 
 
@@ -22,15 +26,15 @@ function player:init(x, y, mv_vx, mv_vy)
         player_cu = 0.25, 
         player_cl = 0.25,
         player_cr = 0.25, 
-        player_pl = 0.25, 
-        player_pr = 0.25, 
-        player_pu = 0.25, 
-        player_pd = 0.25 
+        player_pl = 0.2, 
+        player_pr = 0.2, 
+        player_pu = 0.2, 
+        player_pd = 0.2 
     }
     self.anim_lookup = {
         walk = {l='player_wl',r='player_wr',u='player_wu',d='player_wd'}, 
         carry = {l='player_cl',r='player_cr',u='player_cu',d='player_cd'}, 
-        punch = {l='player_pl', r='player_pr', u='plyaer_pu', d='player_pd'}
+        punch = {l='player_pl', r='player_pr', u='player_pu', d='player_pd'}
     } 
     self.action = 'walk'
     self:set_anim(self.anim_lookup[self.action]['d'])
@@ -49,25 +53,33 @@ function player:update(dt)
         self.action = 'carry'
     elseif vec_len(self.mv_vec) > 0 then  
         self.action = 'walk'
+    elseif vec_len(self.action_vec) > 0 then 
+        self.action = 'punch' 
     end 
 
     if vec_len(self.mv_vec) > 0 then 
-        local mv_str_dir = self:get_dir_str(self.mv_vec)
-        self:set_anim(self.anim_lookup[self.action][mv_str_dir])
+        local str_dir = self:get_dir_str(self.mv_vec)
+        self:set_anim(self.anim_lookup[self.action][str_dir])
+    elseif vec_len(self.action_vec) > 0 then 
+        local str_dir = self:get_dir_str(self.action_vec)
+        self:set_anim(self.anim_lookup[self.action][str_dir])
     else  
         self:set_default_last_dir_anim()
     end 
 
     -- if player moves => animate, update direction 
-    if vec_len(self.mv_vec) > 0 then
+    if vec_len(self.mv_vec) > 0 or vec_len(self.action_vec) > 0 then 
         self:animate(dt)
+    end 
+
+    if vec_len(self.mv_vec) > 0 then
         self.dir_vec = vec_cat(self.mv_vec, {}) -- just vec copy with vec_cat 
     end 
 end 
 
 function player:get_dir_str(vec)
     -- vec: two items vector x є [-1;1] and y є [-1;1] 
-    -- returns str mapping 
+    -- returns str mapping
     dir_str = nil 
     if vec[1] == -1 then 
         dir_str = 'l'
@@ -100,8 +112,15 @@ end
 function player:throw_item() 
     self.carry_item.mv_vec = self.dir_vec
     self.carry_item = nil
+    self.action = 'walk'
 end 
 
-function player:punch() 
-    self.mv_vec = {0, 0} 
+function player:start_punch() 
+    self.mv_vec = {0, 0}
+    self.action_vec = self.dir_vec
+end 
+
+function player:end_punch()
+    self.action_vec = {0, 0}
+    self.action = 'walk'
 end 

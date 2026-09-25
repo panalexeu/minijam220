@@ -32,7 +32,7 @@ function level_keypressed(key)
     elseif key == 'w' then player_obj.mv_vec[2] = -1
     elseif key == 's' then player_obj.mv_vec[2] = 1
     elseif key == 'e' and player_obj.carry_item ~= nil then player_obj:throw_item() 
-    elseif key == 'e' and player_obj.carry_item == nil then player_obj:punch() 
+    elseif key == 'e' and player_obj.carry_item == nil then player_obj:start_punch()
     end
 end 
 
@@ -41,6 +41,7 @@ function level_keyreleased(key)
     elseif key == 'd' then player_obj.mv_vec[1] = 0 
     elseif key == 'w' then player_obj.mv_vec[2] = 0
     elseif key == 's' then player_obj.mv_vec[2] = 0
+    elseif key == 'e' then player_obj:end_punch()
     end
 end 
 
