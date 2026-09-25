@@ -55,8 +55,8 @@ function player:update(dt)
     elseif self.mv_vec[2] == 1 then 
         self:set_anim(self.anim_lookup[self.action]['d'])
     else
-        -- if no movement => use the last frame of movement animation 
-        self.quad = quads[self.anim_key][#quads[self.anim_key]]
+        -- if no movement => use the last frame of current action animation based on dir_vec
+        self:set_last_dir_anim()
     end
 
     -- if player moves => animate, update direction 
@@ -64,6 +64,22 @@ function player:update(dt)
         self:animate(dt)
         self.dir_vec = vec_cat(self.mv_vec, {}) -- just vec copy with vec_cat 
     end 
+end 
+
+function player:set_last_dir_anim() 
+    if self.dir_vec[1] == -1 then 
+        dir_str = 'l'
+    elseif self.dir_vec[1] == 1 then 
+        dir_str = 'r'
+    elseif self.dir_vec[2] == -1 then 
+        dir_str = 'u'
+    elseif self.dir_vec[2] == 1 then 
+        dir_str = 'd'
+    end
+
+    anim_key = self.anim_lookup[self.action][dir_str]
+
+    self.quad = quads[anim_key][#quads[anim_key]] 
 end 
 
 function player:draw() 
