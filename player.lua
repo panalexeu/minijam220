@@ -22,10 +22,15 @@ function player:init(x, y, mv_vx, mv_vy)
         player_cu = 0.25, 
         player_cl = 0.25,
         player_cr = 0.25, 
+        player_pl = 0.25, 
+        player_pr = 0.25, 
+        player_pu = 0.25, 
+        player_pd = 0.25 
     }
     self.anim_lookup = {
         walk = {l='player_wl',r='player_wr',u='player_wu',d='player_wd'}, 
-        carry = {l='player_cl',r='player_cr',u='player_cu',d='player_cd'} 
+        carry = {l='player_cl',r='player_cr',u='player_cu',d='player_cd'}, 
+        punch = {l='player_pl', r='player_pr', u='plyaer_pu', d='player_pd'}
     } 
     self.action = 'walk'
     self:set_anim(self.anim_lookup[self.action]['d'])
@@ -42,43 +47,43 @@ function player:update(dt)
     -- anims 
     if self.carry_item ~= nil then 
         self.action = 'carry'
-    else 
+    elseif vec_len(self.mv_vec) > 0 then  
         self.action = 'walk'
     end 
 
-    if self.mv_vec[1] == -1 then 
-        self:set_anim(self.anim_lookup[self.action]['l'])
-    elseif self.mv_vec[1] == 1 then 
-        self:set_anim(self.anim_lookup[self.action]['r'])
-    elseif self.mv_vec[2] == -1 then
-        self:set_anim(self.anim_lookup[self.action]['u']) 
-    elseif self.mv_vec[2] == 1 then 
-        self:set_anim(self.anim_lookup[self.action]['d'])
-    else
-        -- if no movement => use the last frame of current action animation based on dir_vec
-        self:set_last_dir_anim()
-    end
+    if vec_len(self.mv_vec) > 0 then 
+        local mv_str_dir = self:get_dir_str(self.mv_vec)
+        self:set_anim(self.anim_lookup[self.action][mv_str_dir])
+    else  
+        self:set_default_last_dir_anim()
+    end 
 
     -- if player moves => animate, update direction 
-    if vec_len(self.mv_vec) >= 1 then
+    if vec_len(self.mv_vec) > 0 then
         self:animate(dt)
         self.dir_vec = vec_cat(self.mv_vec, {}) -- just vec copy with vec_cat 
     end 
 end 
 
-function player:set_last_dir_anim() 
-    if self.dir_vec[1] == -1 then 
+function player:get_dir_str(vec)
+    -- vec: two items vector x є [-1;1] and y є [-1;1] 
+    -- returns str mapping 
+    dir_str = nil 
+    if vec[1] == -1 then 
         dir_str = 'l'
-    elseif self.dir_vec[1] == 1 then 
+    elseif vec[1] == 1 then 
         dir_str = 'r'
-    elseif self.dir_vec[2] == -1 then 
+    elseif vec[2] == -1 then 
         dir_str = 'u'
-    elseif self.dir_vec[2] == 1 then 
+    elseif vec[2] == 1 then 
         dir_str = 'd'
-    end
+    end 
+    return dir_str 
+end 
 
+function player:set_default_last_dir_anim()    
+    dir_str = self:get_dir_str(self.dir_vec)
     anim_key = self.anim_lookup[self.action][dir_str]
-
     self.quad = quads[anim_key][#quads[anim_key]] 
 end 
 
@@ -95,5 +100,8 @@ end
 function player:throw_item() 
     self.carry_item.mv_vec = self.dir_vec
     self.carry_item = nil
-    print(self.carry_item)
+end 
+
+function player:punch() 
+    self.mv_vec = {0, 0} 
 end 

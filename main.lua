@@ -37,6 +37,11 @@ function love.load()
     load_quads('player_cu', 12, 1, 16, 4)
     load_quads('player_cl', 12, 2, 16, 4)
     load_quads('player_cr', 12, 3, 16, 4)
+    -- punch 
+    load_quads('player_pd', 21, 0, 16, 4)
+    load_quads('player_pu', 21, 1, 16, 4)
+    load_quads('player_pl', 21, 2, 16, 4)
+    load_quads('player_pr', 21, 3, 16, 4)
     load_sprite('ore', 'ore.png')
     load_quads('ore_df', 0, 0, 8, 1)
 
