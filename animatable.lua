@@ -2,6 +2,7 @@ animatable = class:new()
 
 function animatable:init() 
     self.img = nil
+    self.quad = nil
     self.anim_speed = {}
     self.anim_key, self.anim_timer, self.anim_frame = nil, nil, nil
 end 
