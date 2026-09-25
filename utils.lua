@@ -14,6 +14,16 @@ function vec_m_scalar(vec, scalar)
   return t 
 end 
 
+function vec_d_scalar(vec, scalar)
+  if scalar == 0 then return vec end
+
+  local t = {}
+  for i=1,#vec do 
+    t[i] = vec[i] / scalar
+  end
+  return t
+end 
+
 function vec_cat(vec1, vec2)
   local out = {}
   for i=1,#vec1 do out[#out+1] = vec1[i] end  
@@ -35,6 +45,15 @@ function str_vec(vec)
   io.write('vec size ('.. #vec .. '): ')
   for i=1,#vec do io.write(vec[i], ' ') end
   print('')
+end 
+
+function vec_len(vec)
+  s = 0 
+  for i=1,#vec do 
+    s = s + (vec[i] * vec[i])
+  end 
+  s = math.sqrt(s)
+  return s 
 end 
 
 function contains(item, vec) 

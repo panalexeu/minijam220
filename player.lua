@@ -1,11 +1,12 @@
 player = animatable:new() 
 
-function player:init(x, y, move_vx, move_vy) 
+function player:init(x, y, mv_vx, mv_vy) 
     self.x, self.y = x, y
-    self.move_vx, self.move_vy = move_vx, move_vy 
-    self.vx, self.vy = self.move_vx, self.move_vy
-    self.dir_x, self.dir_y = 0, 0 
-    
+    self.mv_vx, self.mv_vy = mv_vx, mv_vy 
+    self.vx, self.vy = self.mv_vx, self.mv_vy
+    self.mv, self.dir_y = 0, 0 
+    self.mv_vec = {0, 0}
+
     self.ox, self.oy = tilesize / 2, tilesize / 2
 
     -- anims
@@ -21,16 +22,18 @@ function player:init(x, y, move_vx, move_vy)
 end 
 
 function player:update(dt)
-    self.x = self.x + (self.dir_x * self.vx * dt)
-    self.y = self.y + (self.dir_y * self.vy * dt)
+    -- normalize mv_vec by its length so there is no diagonal movement speedup
+    local norm_vec = vec_d_scalar(self.mv_vec, vec_len(self.mv_vec))
+    self.x = self.x + (norm_vec[1] * self.vx * dt)
+    self.y = self.y + (norm_vec[2] * self.vy * dt)
 
-    if self.dir_x == -1 then 
+    if self.mv_vec[1] == -1 then 
         self:set_anim('player_wl')
-    elseif self.dir_x == 1 then 
+    elseif self.mv_vec[1] == 1 then 
         self:set_anim('player_wr')
-    elseif self.dir_y == -1 then
+    elseif self.mv_vec[2] == -1 then
         self:set_anim('player_wu') 
-    elseif self.dir_y == 1 then 
+    elseif self.mv_vec[2] == 1 then 
         self:set_anim('player_wd')
     else
         -- if no movement => use the last frame of movement animation 
