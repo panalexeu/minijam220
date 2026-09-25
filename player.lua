@@ -26,10 +26,10 @@ function player:init(x, y, mv_vx, mv_vy)
         player_cu = 0.25, 
         player_cl = 0.25,
         player_cr = 0.25, 
-        player_pl = 0.2, 
-        player_pr = 0.2, 
-        player_pu = 0.2, 
-        player_pd = 0.2 
+        player_pl = 0.25, 
+        player_pr = 0.25, 
+        player_pu = 0.25, 
+        player_pd = 0.25
     }
     self.anim_lookup = {
         walk = {l='player_wl',r='player_wr',u='player_wu',d='player_wd'}, 
