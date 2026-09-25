@@ -40,7 +40,7 @@ function player:update(dt)
         self.quad = quads[self.anim_key][#quads[self.anim_key]]
     end
 
-    if self.dir_x ~= 0 or self.dir_y ~= 0 then
+    if vec_len(self.mv_vec) >= 1 then
         self:animate(dt)
     end 
 end 
