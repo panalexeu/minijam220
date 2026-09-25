@@ -2,6 +2,8 @@ function level_load()
     gamestate = 'level'
 
     player_obj = player:new(game_w/2 , game_h/2, 100, 100)
+    item = item:new()
+    player:set_carry_item(item)
     objects = {
         player_obj, 
     }

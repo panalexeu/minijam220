@@ -6,10 +6,12 @@ function love.load()
     require "player"
     require "level"
     require "crystal"
+    require "item"
 
     -- game variables/constants 
     gamestate = 'load'
     tilesize = 16 
+    itemsize = 8
     
     -- window/screen stuff 
     game_w, game_h = 400, 224 
@@ -29,6 +31,8 @@ function love.load()
     load_quads('player_wu', 0, 1, 16, 4)
     load_quads('player_wl', 0, 2, 16, 4)
     load_quads('player_wr', 0, 3, 16, 4)
+    load_sprite('ore', 'ore.png')
+    load_quads('ore_df', 0, 0, 8, 1)
 
     level_load()
 end 

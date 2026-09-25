@@ -6,8 +6,8 @@ function player:init(x, y, mv_vx, mv_vy)
     self.vx, self.vy = self.mv_vx, self.mv_vy
     self.mv, self.dir_y = 0, 0 
     self.mv_vec = {0, 0}
-
     self.ox, self.oy = tilesize / 2, tilesize / 2
+    self.carry_item = nil 
 
     -- anims
     animatable.init(self) -- animatable baseclass 
@@ -46,6 +46,16 @@ function player:update(dt)
 end 
 
 function player:draw() 
+    if self.carry_item ~= nil then
+        local offset_y = 12
+        self.carry_item.x, self.carry_item.y = self.x, self.y - offset_y
+        self.carry_item:draw()
+    end 
+
     love.graphics.setColor(1,1,1,1) 
     love.graphics.draw(self.img, self.quad, self.x, self.y, 0, 1, 1, self.ox, self.oy)
+end 
+
+function player:set_carry_item(obj)
+    self.carry_item = obj 
 end 
