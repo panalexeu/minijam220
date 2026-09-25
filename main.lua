@@ -54,7 +54,7 @@ function love.load()
     load_quads('ore_df', 0, 0, 8, 1)
     load_sprite('oreblock', 'oreblock.png') 
     load_quads('oreblock_df', 0, 0, 8, 1) 
-    load_quads('oreblock_break', 1, 0, 8, 4)
+    load_quads('oreblock_break', 1, 0, 8, 5)
 
     level_load()
 end 

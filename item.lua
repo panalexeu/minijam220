@@ -36,6 +36,8 @@ end
 function item:draw()
     love.graphics.setColor(self.color)
     love.graphics.draw(self.img, self.quad, self.x, self.y, 0, 1, 1, self.ox, self.oy)
+    -- TODO: for some reason otherwise everything is green when item is draw after player wtf
+    love.graphics.setColor(1,1,1,1)
 end 
 
 function item:draw_aura()

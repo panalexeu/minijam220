@@ -10,6 +10,7 @@ function level_load()
         oreblock:new(game_w/2 + 8, game_h/2 + 8, 32),
         player_obj, 
     }
+    active_obj = nil
 
     -- lighting system 
     light_canvas = love.graphics.newCanvas(game_w, game_h)
@@ -25,7 +26,18 @@ function level_update(dt)
         if obj.__baseclass == item then
             if obj_overlap(obj, player_obj) and obj:holdable() then player_obj.carry_item = obj end 
         elseif obj.__baseclass == oreblock then 
-            if mouse_overlap(obj, mouse_x, mouse_y) then obj.is_active = true else obj.is_active = false end 
+            if mouse_overlap(obj, mouse_x, mouse_y) then 
+                -- TODO think what do with this: active obj stays even if there is no mouse on it positioned 
+                active_obj = obj 
+                active_obj.is_active = true 
+            else 
+                obj.is_active = false
+            end 
+            if obj.is_broken then 
+                table.remove(objects, i)
+                local item = item:new(obj.x, obj.y, 240, 600, 32)
+                table.insert(objects, item)
+            end 
         end
     end 
 end 
@@ -56,7 +68,9 @@ function level_keypressed(key)
     elseif key == 'w' then player_obj.mv_vec[2] = -1
     elseif key == 's' then player_obj.mv_vec[2] = 1
     elseif key == 'e' and player_obj.carry_item ~= nil then player_obj:throw_item() 
-    elseif key == 'e' and player_obj.carry_item == nil then player_obj:start_punch()
+    elseif key == 'e' and player_obj.carry_item == nil then 
+        player_obj:start_punch()
+        if active_obj ~= nil then active_obj:init_break_t() end 
     end
 end 
 
@@ -65,7 +79,9 @@ function level_keyreleased(key)
     elseif key == 'd' then player_obj.mv_vec[1] = 0 
     elseif key == 'w' then player_obj.mv_vec[2] = 0
     elseif key == 's' then player_obj.mv_vec[2] = 0
-    elseif key == 'e' then player_obj:end_punch()
+    elseif key == 'e' then 
+        player_obj:end_punch()
+        if active_obj ~= nil then active_obj:nil_break_t() end
     end
 end 
 
