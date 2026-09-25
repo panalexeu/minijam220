@@ -1,4 +1,4 @@
-player = class:new() 
+player = animatable:new() 
 
 function player:init(x, y, move_vx, move_vy) 
     self.x, self.y = x, y

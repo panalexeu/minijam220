@@ -38,6 +38,10 @@ function love.keypressed(key)
     if gamestate == 'level' then 
         level_keypressed(key)
     end 
+
+    if key == 'escape' then 
+        love.event.quit(0)
+    end 
 end
 
 function love.keyreleased(key)
