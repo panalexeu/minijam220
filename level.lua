@@ -3,7 +3,7 @@ function level_load()
 
     player_obj = player:new(game_w/2 , game_h/2, 100, 100)
     objects = {
-        player_obj
+        player_obj, 
     }
 end 
 

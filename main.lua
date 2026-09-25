@@ -5,6 +5,7 @@ function love.load()
     require "animatable"
     require "player"
     require "level"
+    require "crystal"
 
     -- game variables/constants 
     gamestate = 'load'
