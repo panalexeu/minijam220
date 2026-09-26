@@ -16,7 +16,7 @@ function level_load(lvl)
         blind = 5000
         bid = 1000 
         buyout_t = 5
-        player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 64)
+        player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 48)
         belts, clusters = 1,1
         cluster_color = {green}
         item_spawn_offset = belts + clusters + 1
@@ -45,45 +45,45 @@ function level_load(lvl)
         blind = 5000
         bid = 1000 
         buyout_t = 5
-        player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 64)
+        player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 48)
         belts, clusters = 2,2
         cluster_color = {green, blue}
         item_spawn_offset = belts + clusters + 1
         objects = {
             belt:new(
-                16,             -- x
-                64 ,  -- y 
-                game_w - 32,    -- w
-                12,             -- h 
-                120,            -- v 
-                10,              -- items
-                2,              -- item_cooldown 
-                {green, blue},  -- colors
+                16,           
+                64 ,  
+                game_w - 32,
+                12,          
+                120,         
+                10,         
+                2,           
+                {green, blue},
                 item_spawn_offset
             ), 
             belt:new(
-                16,             -- x
-                game_h - 64 ,   -- y 
-                game_w - 32,    -- w
-                12,             -- h 
-                120,            -- v 
-                0,              -- items
-                0,              -- item_cooldown 
-                {},  -- colors
+                16,            
+                game_h - 64 ,   
+                game_w - 32,   
+                12,             
+                120,            
+                0,             
+                0,              
+                {},  
                 item_spawn_offset
             ), 
             cluster:new(
-                game_w - 16,    -- x 
-                64, -- y 
-                16,             -- w 
-                12,             -- h 
+                game_w - 16,    
+                64,  
+                16,            
+                12,            
                 cluster_color[1]
             ),
             cluster:new(
-                game_w - 16,    -- x 
-                game_h - 64,    -- y 
-                16,             -- w 
-                12,             -- h 
+                game_w - 16,     
+                game_h - 64,     
+                16,              
+                12,              
                 cluster_color[2]
             ),
             player_obj
@@ -92,27 +92,27 @@ function level_load(lvl)
         blind = 13000
         bid = 1000 
         buyout_t = 5
-        player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 64)
+        player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 48)
         belts, clusters = 1,1
         cluster_color = {red}
         item_spawn_offset = belts + clusters + 1
         objects = {
             belt:new(
-                16,             -- x
-                game_h / 2 - 6, -- y 
-                game_w - 32,    -- w
-                12,             -- h 
-                120,            -- v 
-                15,              -- items
-                1.25,              -- item_cooldown 
-                {red, cyan, purple, white, teal},  -- colors
+                16,             
+                game_h / 2 - 6,  
+                game_w - 32,    
+                12,              
+                120,             
+                15,             
+                1.25,           
+                {red, cyan, purple, white, teal}, 
                 item_spawn_offset
             ), 
             cluster:new(
-                game_w - 16,    -- x 
-                game_h / 2 - 6, -- y 
-                16,             -- w 
-                12,             -- h 
+                game_w - 16,     
+                game_h / 2 - 6,  
+                16,              
+                12,              
                 cluster_color[1]
             ),
             player_obj
@@ -121,45 +121,45 @@ function level_load(lvl)
         blind = 15000
         bid = 1000 
         buyout_t = 5
-        player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 64)
+        player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 48)
         belts, clusters = 2,2
         cluster_color = {red, cyan}
         item_spawn_offset = belts + clusters + 1
         objects = {
             belt:new(
-                16,             -- x
-                64 ,            -- y 
-                game_w - 32,    -- w
-                12,             -- h 
-                120,            -- v 
-                17,             -- items
-                1.25,           -- item_cooldown 
-                {red, cyan, white,},  -- colors
+                16,             
+                64 ,             
+                game_w - 32,    
+                12,              
+                120,             
+                17,             
+                1.25,            
+                {red, cyan, white,},
                 item_spawn_offset
             ), 
             belt:new(
-                16,             -- x
-                game_h - 64 ,   -- y 
-                game_w - 32,    -- w
-                12,             -- h 
-                120,            -- v 
-                0,              -- items
-                0,              -- item_cooldown 
-                {},  -- colors
+                16,             
+                game_h - 64 ,    
+                game_w - 32,    
+                12,              
+                120,             
+                0,              
+                0,              
+                {},  
                 item_spawn_offset
             ), 
             cluster:new(
-                game_w - 16,    -- x 
-                64, -- y 
-                16,             -- w 
-                12,             -- h 
+                game_w - 16, 
+                64,  
+                16,  
+                12,  
                 cluster_color[1]
             ),
             cluster:new(
-                game_w - 16,    -- x 
-                game_h - 64,    -- y 
-                16,             -- w 
-                12,             -- h 
+                game_w - 16, 
+                game_h - 64, 
+                16,          
+                12,          
                 cluster_color[2]
             ),
             player_obj
@@ -169,7 +169,7 @@ function level_load(lvl)
         blind = 20000
         bid = 1000 
         buyout_t = 5
-        player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 64)
+        player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 48)
         belts, clusters = 3,3
         cluster_color = {red, white, cyan}
         item_spawn_offset = belts + clusters + 1
