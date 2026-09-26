@@ -88,7 +88,6 @@ function level_keypressed(key)
 end 
 
 function level_keyreleased(key)
-    print(key)
     if key == 'a' then player_obj.mv_vec[1] = 0
     elseif key == 'd' then player_obj.mv_vec[1] = 0 
     elseif key == 'w' then player_obj.mv_vec[2] = 0
