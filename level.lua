@@ -3,6 +3,7 @@ function level_load()
     blind = 10000
     bid = 1000
     cur_score = 0 
+    buyout_t = 5 
 
     -- objects 
     player_obj = player:new(game_w/2 , game_h/2, 100, 48)
@@ -102,8 +103,11 @@ function level_update(dt)
     end
 
     if is_buyout_phase() then 
-        buyout()
+        buyout_t = buyout_t - dt 
     end
+    if buyout_t <= 0 then 
+        buyout()
+    end 
 end 
 
 function level_draw() 
