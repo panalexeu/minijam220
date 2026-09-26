@@ -98,7 +98,7 @@ function level_draw()
     love.graphics.setBlendMode('alpha')
 
     -- print score 
-    local s = 'score*' .. score
+    local s = 'score*' .. score .. ' ' .. 'blind*' .. blind 
     properprint(s, 0, game_h - 8, 1)
 end 
 
