@@ -1,6 +1,10 @@
 function level_load() 
     gamestate = 'level'
+    blind = 10000
+    bid = 1000
+    score = 0 
 
+    -- objects 
     player_obj = player:new(game_w/2 , game_h/2, 100, 48)
     item_obj = item:new(game_w/2+32, game_h/2+32, 120, 240, 600, 32, pink)
     -- objects order: belts, clusters, items, player
@@ -56,9 +60,9 @@ function level_update(dt)
                 if cluster_i ~= nil then 
                     local cluster_obj = objects[cluster_i]
                     if obj.color == cluster_obj.color then 
-                        print('+1')
+                        score = score + bid
                     else 
-                        print('-1')
+                        score = score - bid 
                     end 
                     table.remove(objects, i)
                 end
@@ -92,6 +96,10 @@ function level_draw()
     love.graphics.setBlendMode('multiply', 'premultiplied')
     love.graphics.draw(light_canvas)
     love.graphics.setBlendMode('alpha')
+
+    -- print score 
+    local s = 'score*' .. score
+    properprint(s, 0, game_h - 8, 1)
 end 
 
 function draw_back() 

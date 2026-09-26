@@ -31,6 +31,7 @@ function love.load()
 
     sprites = {} 
     quads = {} 
+    fontquads = {} 
     load_sprite('player', 'player.png')
     -- walk 
     load_quads('player_wd', 0, 0, 16, 4)
@@ -42,7 +43,6 @@ function love.load()
     load_quads('player_cu', 12, 1, 16, 4)
     load_quads('player_cl', 12, 2, 16, 4)
     load_quads('player_cr', 12, 3, 16, 4)
-    
     -- TODO skip for now 
     -- punch 
     load_quads('player_pd', 24, 0, 16, 4)
@@ -63,6 +63,10 @@ function love.load()
     load_sprite('rail', 'rail.png')
     load_quads('rail_df', 0, 0, 16, 1)
     load_sprite('back', 'back.png')
+    -- font 
+    load_sprite('font', 'font.png')
+    fontglyphs = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*-'
+    load_fontquads(fontglyphs, 8)
 
     sounds = {}
     load_sound('start', 'start.wav')
@@ -130,4 +134,25 @@ end
 
 function load_sound(key, path)
     sounds[key] = love.audio.newSource('assets/sound/' .. path, 'static')
+end
+
+function load_fontquads(glyphs, w)
+    local img = sprites['font']
+    for i=1,string.len(glyphs) do 
+        fontquads[string.sub(glyphs, i, i)] = love.graphics.newQuad((i-1)*w, 0, w, w, img:getWidth(), img:getHeight())
+    end 
+end 
+
+function properprint(s, x, y, scale)
+    local startx = x
+	for i = 1, string.len(tostring(s)) do
+		local char = string.sub(string.upper(s), i, i)
+		if char == "|" then
+			x = startx-(i*8)*scale
+			y = y + 10*scale
+		elseif fontquads[char] then
+            local x = x+((i-1)*8)*scale
+			love.graphics.draw(sprites['font'], fontquads[char], x, y, 0, scale, scale)
+		end
+	end
 end
