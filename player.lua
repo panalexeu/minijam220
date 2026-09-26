@@ -19,18 +19,18 @@ function player:init(x, y, mv_v, aurasize)
     animatable.init(self) -- animatable baseclass 
     self.img = sprites['player']
     self.anim_speed = {
-        player_wd = 0.25, 
-        player_wu = 0.25, 
-        player_wl = 0.25,
-        player_wr = 0.25, 
-        player_cd = 0.25, 
-        player_cu = 0.25, 
-        player_cl = 0.25,
-        player_cr = 0.25, 
-        player_pl = 0.25, 
-        player_pr = 0.25, 
-        player_pu = 0.25, 
-        player_pd = 0.25
+        player_wd = 0.15, 
+        player_wu = 0.15, 
+        player_wl = 0.15,
+        player_wr = 0.15, 
+        player_cd = 0.15, 
+        player_cu = 0.15, 
+        player_cl = 0.15,
+        player_cr = 0.15, 
+        player_pl = 0.15, 
+        player_pr = 0.15, 
+        player_pu = 0.15, 
+        player_pd = 0.15
     }
     self.anim_lookup = {
         walk = {l='player_wl',r='player_wr',u='player_wu',d='player_wd'}, 

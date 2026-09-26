@@ -18,7 +18,7 @@ function level_load()
             12, 
             240, 
             20, 
-            2, 
+            1.5, 
             {green, pink, white, yellow}, 
             item_spawn_offset
         ),
@@ -35,7 +35,6 @@ function level_load()
         ),
         cluster:new(game_w-16, 64, 16, 12, pink),
         cluster:new(game_w-16, game_h-64, 16, 12, yellow),
-        item_obj,
         player_obj, 
     }
 
