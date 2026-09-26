@@ -1,9 +1,10 @@
 player = animatable:new() 
 
-function player:init(x, y, mv_vx, mv_vy, aurasize) 
+function player:init(x, y, mv_v, aurasize) 
     self.x, self.y = x, y
-    self.mv_vx, self.mv_vy = mv_vx, mv_vy 
-    self.vx, self.vy = self.mv_vx, self.mv_vy
+    self.mv_v = mv_v
+    self.v_sprint = self.mv_v * 1.5
+    self.v = self.mv_v
     self.mv, self.dir_y = 0, 0 
     -- movement vector 
     self.mv_vec = {0, 0}
@@ -49,8 +50,8 @@ end
 function player:update(dt)
     -- normalize mv_vec by its length so there is no diagonal movement speedup
     local norm_vec = vec_d_scalar(self.mv_vec, vec_len(self.mv_vec))
-    self.x = self.x + (norm_vec[1] * self.vx * dt)
-    self.y = self.y + (norm_vec[2] * self.vy * dt)
+    self.x = self.x + (norm_vec[1] * self.v * dt)
+    self.y = self.y + (norm_vec[2] * self.v * dt)
 
     if self.carry_item ~= nil and self.carry_item:holdable() then self:drag_item() end 
 
@@ -77,7 +78,6 @@ function player:update(dt)
     if vec_len(self.mv_vec) > 0 or vec_len(self.action_vec) > 0 then 
         self:animate(dt)
     end 
-
     if vec_len(self.mv_vec) > 0 then
         self.dir_vec = vec_cat(self.mv_vec, {}) -- just vec copy with vec_cat 
     end 

@@ -1,11 +1,12 @@
 belt = class:new() 
 
-function belt:init(x, y, w, h, items, item_cooldown, colors)
+function belt:init(x, y, w, h, items, item_cooldown, colors, belts)
     self.x, self.y = x, y 
     self.h, self.w = h, w
     self.items = items
     self.item_cooldown = item_cooldown 
     self.colors = colors 
+    self.belts = belts 
     
     self.t = 0 
     self.item_count = 0
@@ -27,8 +28,8 @@ end
 function belt:next_item(objects) 
     self.t = 0 
     self.item_count = self.item_count + 1
-    table.insert(objects, 2, self:spawn_item())
-    --                    ^ 2 cause the first object to draw is the belt 
+    table.insert(objects, self.belts+1, self:spawn_item())
+    --                    ^ belts always come first  
 end
 
 function belt:update(dt, objects)

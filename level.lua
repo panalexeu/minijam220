@@ -1,9 +1,10 @@
 function level_load() 
     gamestate = 'level'
 
-    player_obj = player:new(game_w/2 , game_h/2, 100, 100, 48)
+    player_obj = player:new(game_w/2 , game_h/2, 100, 48)
     item_obj = item:new(game_w/2+32, game_h/2+32, 120, 240, 600, 32, pink)
-    belt_obj = belt:new(16, 32, game_w - 32, 12, 3, 2, {green, pink, white, yellow})
+    belts = 1
+    belt_obj = belt:new(16, 32, game_w - 32, 12, 3, 2, {green, pink, white, yellow}, belts)
     objects = {
         belt_obj,
         item_obj,
@@ -27,11 +28,21 @@ function level_update(dt)
         end
 
         if obj.__baseclass == item then
+            -- player-object collision 
             if obj_overlap(obj, player_obj) and obj:pickable() then 
-                    obj.mv_vec = {0,0} 
-                    obj.is_on_belt = false
-                    player_obj.carry_item = obj 
-            end     
+                obj.mv_vec = {0,0} 
+                obj.is_on_belt = false
+                player_obj.carry_item = obj 
+            -- object-belt collision 
+            else
+                local belt_i = item_belts_col(obj, belts)
+                if belt_i ~= nil then
+                    local belt_obj = objects[belt_i]
+                    obj.is_on_belt = true 
+                    obj.y = belt_obj.y 
+                    obj.mv_vec = belt_obj.mv_vec
+                end      
+            end 
         elseif obj.__baseclass == player then 
             bounding_box_player_col(obj)
         end
@@ -59,6 +70,13 @@ function level_draw()
     love.graphics.setBlendMode('alpha')
 end 
 
+function draw_back() 
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.draw(sprites['back'], 0, 0, 0, 1, 1)
+end 
+
+-- controls 
+
 function level_keypressed(key)
     if key == 'a' then player_obj.mv_vec[1] = -1
     elseif key == 'd' then player_obj.mv_vec[1] = 1 
@@ -66,14 +84,17 @@ function level_keypressed(key)
     elseif key == 's' then player_obj.mv_vec[2] = 1
     elseif key == 'e' and player_obj.carry_item ~= nil then player_obj:throw_item() 
     end
+    if key == 'lshift' then player_obj.v = player_obj.v_sprint end
 end 
 
 function level_keyreleased(key)
+    print(key)
     if key == 'a' then player_obj.mv_vec[1] = 0
     elseif key == 'd' then player_obj.mv_vec[1] = 0 
     elseif key == 'w' then player_obj.mv_vec[2] = 0
     elseif key == 's' then player_obj.mv_vec[2] = 0
     end
+    if key == 'lshift' then player_obj.v = player_obj.mv_v end 
 end 
 
 -- collisions 
@@ -81,6 +102,11 @@ function obj_overlap(obj, player_obj)
     -- AABB overlap (axis-aligned bounding box)
     return math.abs(obj.x - player_obj.x) < obj.ox + player_obj.ox 
            and math.abs(obj.y - player_obj.y) < obj.oy + player_obj.oy
+end 
+
+function obj_belt_overlap(obj, belt)
+    return math.abs(obj.x - belt.x) < obj.ox + belt.w 
+           and math.abs(obj.y - belt.y) < obj.oy + belt.h
 end 
 
 function mouse_overlap(obj, x, y)
@@ -122,9 +148,11 @@ function bounding_box_item_col(obj)
     end 
 end 
 
-
-
-function draw_back() 
-    love.graphics.setColor(1,1,1,1)
-    love.graphics.draw(sprites['back'], 0, 0, 0, 1, 1)
+function item_belts_col(obj, belts)
+    for i=1,belts do
+        if obj_belt_overlap(obj, objects[i]) and not obj.is_on_belt then 
+            return i
+        end
+    end 
+    return nil 
 end 
