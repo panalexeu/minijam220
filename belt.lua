@@ -1,8 +1,9 @@
 belt = class:new() 
 
-function belt:init(x, y, w, h, items, item_cooldown, colors, item_spawn_pos)
+function belt:init(x, y, w, h, v, items, item_cooldown, colors, item_spawn_pos)
     self.x, self.y = x, y
     self.y_item = self.y + itemsize / 2
+    self.v = v
     self.h, self.w = h, w
     self.items = items
     self.item_cooldown = item_cooldown 
@@ -16,7 +17,7 @@ function belt:init(x, y, w, h, items, item_cooldown, colors, item_spawn_pos)
 end 
 
 function belt:spawn_item() 
-    local belt_v = 120
+    local belt_v = self.v
     local v = 240
     local gravity = 600
     local aurasize = 32

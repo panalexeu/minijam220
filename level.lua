@@ -11,8 +11,28 @@ function level_load()
     belts, clusters = 2, 2 
     item_spawn_offset = belts + clusters + 1
     objects = {
-        belt:new(16, 64, game_w - 32, 12, 20, 2, {green, pink, white, yellow}, item_spawn_offset),
-        belt:new(16, game_h - 64, game_w - 32, 12, 0, 0, {}, item_spawn_offset),
+        belt:new(
+            16, 
+            64, 
+            game_w - 32, 
+            12, 
+            240, 
+            20, 
+            2, 
+            {green, pink, white, yellow}, 
+            item_spawn_offset
+        ),
+        belt:new(
+            16, 
+            game_h - 64, 
+            game_w - 32, 
+            12, 
+            240, 
+            0, 
+            0, 
+            {}, 
+            item_spawn_offset
+        ),
         cluster:new(game_w-16, 64, 16, 12, pink),
         cluster:new(game_w-16, game_h-64, 16, 12, yellow),
         item_obj,
