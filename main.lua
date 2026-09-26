@@ -2,6 +2,7 @@ function love.load()
     require "utils"
     require "class"
     
+    require "colors"
     require "animatable"
     require "player"
     require "level"

@@ -1,15 +1,14 @@
 item = class:new() 
 
-function item:init(x, y, mv, gravity, aurasize)
+function item:init(x, y, mv, gravity, aurasize, color)
     self.x, self.y = x, y
     self.ox, self.oy =  itemsize / 2, itemsize / 2 
     self.mv = mv
     self.v = self.mv
-    self.aurasize = aurasize
     self.gravity = gravity 
     self.mv_vec = {0, 0}
 
-    self.color = {0.4, 0.8, 0.4, 1}
+    self.color = color
     self.img = sprites['ore']
     self.quad = quads['ore_df'][1]
 
@@ -41,7 +40,7 @@ function item:draw()
 end 
 
 function item:draw_aura()
-    love.graphics.setColor(self.aura_clr)
+    love.graphics.setColor(self.color)
     love.graphics.draw(self.aura_img, self.x, self.y, 0, 1, 1, self.aura_ox, self.aura_oy)
 end
 

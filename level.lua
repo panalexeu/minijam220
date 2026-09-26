@@ -2,13 +2,11 @@ function level_load()
     gamestate = 'level'
 
     player_obj = player:new(game_w/2 , game_h/2, 100, 100, 48)
-    item_obj = item:new(game_w/2+32, game_h/2+32, 240, 600, 32)
-    rails = get_rails()
+    item_obj = item:new(game_w/2+32, game_h/2+32, 240, 600, 32, pink)
     objects = {
         item_obj,
         player_obj, 
     }
-    objects = vec_cat(rails, objects)
 
     -- lighting system 
     light_canvas = love.graphics.newCanvas(game_w, game_h)
@@ -73,12 +71,3 @@ end
 function mouse_overlap(obj, x, y)
     return (x > obj.x - obj.ox) and (x < obj.x + obj.ox) and (y > obj.y - obj.oy) and (y < obj.y + obj.oy)
 end
-
--- stuff 
-function get_rails() 
-    local t = {}
-    for i=0,game_h/2 do 
-        table.insert(t, rail:new(game_w / 2, i*tilesize))
-    end 
-    return t 
-end 

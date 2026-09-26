@@ -1,0 +1,10 @@
+green   = {0.4, 0.8, 0.4, 1}    -- emerald
+blue    = {0.35, 0.6, 1, 1}     -- sapphire
+cyan    = {0.4, 0.9, 0.95, 1}   -- aquamarine
+purple  = {0.7, 0.4, 0.95, 1}   -- amethyst
+pink    = {1, 0.5, 0.75, 1}     -- rose quartz
+red     = {0.95, 0.3, 0.35, 1}  -- ruby
+orange  = {1, 0.6, 0.25, 1}     -- amber
+yellow  = {1, 0.9, 0.35, 1}     -- citrine
+white   = {0.9, 0.95, 1, 1}     -- diamond / quartz
+teal    = {0.25, 0.75, 0.65, 1} -- jade
