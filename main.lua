@@ -18,7 +18,7 @@ function love.load()
     gamestate = 'load'
     tilesize = 16 
     itemsize = 8
-    lvl = 1
+    lvl = 4
 
     -- window/screen stuff 
     game_w, game_h = 400, 224 
