@@ -7,6 +7,7 @@ function item:init(x, y, mv, gravity, aurasize, color)
     self.v = self.mv
     self.gravity = gravity 
     self.mv_vec = {0, 0}
+    self.is_on_belt = false
 
     self.color = color
     self.img = sprites['ore']
@@ -19,14 +20,16 @@ function item:init(x, y, mv, gravity, aurasize, color)
 end 
 
 function item:update(dt)
-    if vec_len(self.mv_vec) >= 1 then 
-        self.v = self.v - self.gravity * dt
-    end 
+    if  not self.is_on_belt then 
+        if vec_len(self.mv_vec) >= 1 then 
+            self.v = self.v - self.gravity * dt
+        end 
 
-    if self.v <= 0 then 
-        self.mv_vec = {0, 0}
-        self.v = self.mv
-    end 
+        if self.v <= 0 then 
+            self.mv_vec = {0, 0}
+            self.v = self.mv
+        end 
+    end
 
     self.x = self.x + (self.mv_vec[1] * self.v * dt)
     self.y = self.y + (self.mv_vec[2] * self.v * dt)

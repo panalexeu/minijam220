@@ -10,6 +10,7 @@ function love.load()
     require "oreblock"
     require "aura"
     require "tile"
+    require "belt"
 
     -- game variables/constants 
     gamestate = 'load'
@@ -40,12 +41,13 @@ function love.load()
     load_quads('player_cu', 12, 1, 16, 4)
     load_quads('player_cl', 12, 2, 16, 4)
     load_quads('player_cr', 12, 3, 16, 4)
+    
+    -- TODO skip for now 
     -- punch 
     load_quads('player_pd', 24, 0, 16, 4)
     load_quads('player_pu', 24, 1, 16, 4)
     load_quads('player_pl', 24, 2, 16, 4)
     load_quads('player_pr', 24, 3, 16, 4)
-    -- TODO skip for now 
     -- slash 
     load_quads('player_sd', 26, 0, 16, 4)
     load_quads('player_su', 26, 1, 16, 4)
