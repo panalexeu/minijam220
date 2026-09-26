@@ -2,7 +2,7 @@ function level_load()
     gamestate = 'level'
 
     player_obj = player:new(game_w/2 , game_h/2, 100, 100, 48)
-    item_obj = item:new(game_w/2+32, game_h/2+32, 240, 600, 32, pink)
+    item_obj = item:new(game_w/2+32, game_h/2+32, 240 * 2, 600 * 2, 32, pink)
     objects = {
         item_obj,
         player_obj, 
@@ -19,8 +19,12 @@ function level_update(dt)
     for i,obj in ipairs(objects) do 
         obj:update(dt)
         if obj.__baseclass == item then
-            if obj_overlap(obj, player_obj) and obj:holdable() then player_obj.carry_item = obj end         
+            bounding_box_item_col(obj)
+            if obj_overlap(obj, player_obj) and obj:holdable() then player_obj.carry_item = obj end     
+        elseif obj.__baseclass == player then 
+            bounding_box_player_col(obj)
         end
+
     end 
 end 
 
@@ -34,7 +38,7 @@ function level_draw()
     love.graphics.setBlendMode('alpha')
 
     love.graphics.setCanvas(screen)
-    love.graphics.clear(back_color)
+    draw_back()
     for i,obj in ipairs(objects) do 
             obj:draw()
     end
@@ -71,3 +75,46 @@ end
 function mouse_overlap(obj, x, y)
     return (x > obj.x - obj.ox) and (x < obj.x + obj.ox) and (y > obj.y - obj.oy) and (y < obj.y + obj.oy)
 end
+
+function bounding_box_player_col(obj)
+    local box_offset = 16 
+    local box_mult = 1.5
+    local box_w, box_h = game_w - box_offset, game_h - box_offset 
+
+    if (obj.x + obj.ox) >= box_w then 
+        obj.mv_vec = {0,0}
+        obj.x = box_w - obj.ox * box_mult
+    elseif (obj.x - obj.ox) <= box_offset then 
+        obj.mv_vec = {0,0}
+        obj.x = box_offset + obj.ox * box_mult
+    elseif (obj.y + obj.oy) >= box_h then 
+        obj.mv_vec = {0, 0}
+        obj.y = box_h - obj.oy * box_mult
+    elseif (obj.y - obj.oy) <= box_offset then 
+        obj.mv_vec = {0, 0}
+        obj.y = box_offset + obj.oy * box_mult
+    end 
+end 
+
+function bounding_box_item_col(obj)
+    local box_offset = 16 
+    local box_mult = 1.5
+    local box_w, box_h = game_w - box_offset, game_h - box_offset 
+
+    if (obj.x + obj.ox) >= box_w then 
+        obj.mv_vec[1] = -1 
+    elseif (obj.x - obj.ox) <= box_offset then 
+        obj.mv_vec[1] = 1
+    elseif (obj.y + obj.oy) >= box_h then 
+        obj.mv_vec[2] = -1
+    elseif (obj.y - obj.oy) <= box_offset then 
+        obj.mv_vec[2] = 1
+    end 
+end 
+
+
+
+function draw_back() 
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.draw(sprites['back'], 0, 0, 0, 1, 1)
+end 

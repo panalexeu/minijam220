@@ -59,6 +59,7 @@ function love.load()
     load_quads('oreblock_break', 1, 0, 8, 5)
     load_sprite('rail', 'rail.png')
     load_quads('rail_df', 0, 0, 16, 1)
+    load_sprite('back', 'back.png')
 
     level_load()
 end 
