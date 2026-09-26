@@ -6,40 +6,22 @@ function level_load()
     rails = get_rails()
     objects = {
         item_obj,
-        oreblock:new(game_w/2 + 8, game_h/2, 32),
-        oreblock:new(game_w/2 + 16, game_h/2, 32),
-        oreblock:new(game_w/2 + 16, game_h/2 + 8, 32),
         player_obj, 
     }
     objects = vec_cat(rails, objects)
-    active_obj = nil
 
     -- lighting system 
     light_canvas = love.graphics.newCanvas(game_w, game_h)
+    -- claude suggested these values: 
     ambient_color = {0.30, 0.33, 0.45, 1}
     back_color    = {0.18, 0.17, 0.22, 1}
 end 
 
 function level_update(dt)
-    local mouse_x, mouse_y = mousepos2gamepos(love.mouse.getPosition())
-    
     for i,obj in ipairs(objects) do 
         obj:update(dt)
         if obj.__baseclass == item then
-            if obj_overlap(obj, player_obj) and obj:holdable() then player_obj.carry_item = obj end 
-        elseif obj.__baseclass == oreblock then 
-            if mouse_overlap(obj, mouse_x, mouse_y) then 
-                -- TODO think what do with this: active obj stays even if there is no mouse on it positioned 
-                active_obj = obj 
-                active_obj.is_active = true 
-            else 
-                obj.is_active = false
-            end 
-            if obj.is_broken then 
-                table.remove(objects, i)
-                local item = item:new(obj.x, obj.y, 240, 600, 32)
-                table.insert(objects, item)
-            end 
+            if obj_overlap(obj, player_obj) and obj:holdable() then player_obj.carry_item = obj end         
         end
     end 
 end 
@@ -70,9 +52,6 @@ function level_keypressed(key)
     elseif key == 'w' then player_obj.mv_vec[2] = -1
     elseif key == 's' then player_obj.mv_vec[2] = 1
     elseif key == 'e' and player_obj.carry_item ~= nil then player_obj:throw_item() 
-    elseif key == 'e' and player_obj.carry_item == nil then 
-        player_obj:start_punch()
-        if active_obj ~= nil then active_obj:init_break_t() end 
     end
 end 
 
@@ -81,9 +60,6 @@ function level_keyreleased(key)
     elseif key == 'd' then player_obj.mv_vec[1] = 0 
     elseif key == 'w' then player_obj.mv_vec[2] = 0
     elseif key == 's' then player_obj.mv_vec[2] = 0
-    elseif key == 'e' then 
-        player_obj:end_punch()
-        if active_obj ~= nil then active_obj:nil_break_t() end
     end
 end 
 
