@@ -3,11 +3,14 @@ function level_load()
 
     player_obj = player:new(game_w/2 , game_h/2, 100, 48)
     item_obj = item:new(game_w/2+32, game_h/2+32, 120, 240, 600, 32, pink)
-    belts = 2 -- belts'n'clusters 
+    -- objects order: belts, clusters, items, player
+    belts, clusters = 2, 2 
+    item_spawn_offset = belts + clusters + 1
     objects = {
-        belt:new(16, 64, game_w - 32, 12, 20, 2, {green, pink, white, yellow}, belts),
-        cluster:new(game_w-16, 64, game_w, 12, pink, 32),
-        belt:new(16, game_h - 64, game_w - 32, 12, 0, 0, {}, belts),
+        belt:new(16, 64, game_w - 32, 12, 20, 2, {green, pink, white, yellow}, item_spawn_offset),
+        belt:new(16, game_h - 64, game_w - 32, 12, 0, 0, {}, item_spawn_offset),
+        cluster:new(game_w-16, 64, 16, 12, pink),
+        cluster:new(game_w-16, game_h-64, 16, 12, yellow),
         item_obj,
         player_obj, 
     }
@@ -32,21 +35,37 @@ function level_update(dt)
             -- player-object collision 
             if obj_overlap(obj, player_obj) 
                and obj:pickable() 
-               and obj ~= player_obj.carry_item then 
+               and player_obj.carry_item == nil then 
                 obj.mv_vec = {0,0} 
                 obj.is_on_belt = false
                 player_obj.carry_item = obj 
                 sounds['purchuase']:clone():play()
-            -- object-belt collision 
+            -- collisions that are applied for items that are not carried by player 
             elseif obj ~= player_obj.carry_item then
+                -- object-belt collision 
                 local belt_i = item_belts_col(obj, belts)
                 if belt_i ~= nil then
                     local belt_obj = objects[belt_i]
                     obj.is_on_belt = true 
                     obj.y = belt_obj.y_item 
-                    obj.mv_vec = belt_obj.mv_vec
+                    obj.mv_vec = vec_cat(belt_obj.mv_vec,{})
                     sounds['start']:clone():play()
-                end      
+                end
+                --cluster-belt collision 
+                local cluster_i = item_cluster_col(obj, clusters)
+                if cluster_i ~= nil then 
+                    local cluster_obj = objects[cluster_i]
+                    if obj.color == cluster_obj.color then 
+                        print('+1')
+                    else 
+                        print('-1')
+                    end 
+                    table.remove(objects, i)
+                end
+                -- obj-bounding_box collisions 
+                if not obj.is_on_belt then 
+                    bounding_box_item_col(obj)
+                end 
             end 
         elseif obj.__baseclass == player then 
             bounding_box_player_col(obj)
@@ -82,21 +101,19 @@ end
 
 -- controls 
 function level_keypressed(key)
-    if key == 'a' then player_obj.mv_vec[1] = -1
-    elseif key == 'd' then player_obj.mv_vec[1] = 1 
-    elseif key == 'w' then player_obj.mv_vec[2] = -1
-    elseif key == 's' then player_obj.mv_vec[2] = 1
-    elseif key == 'e' and player_obj.carry_item ~= nil then player_obj:throw_item() 
-    end
+    if key == 'a' then player_obj.mv_vec[1] = -1 end
+    if key == 'd' then player_obj.mv_vec[1] = 1 end
+    if key == 'w' then player_obj.mv_vec[2] = -1 end
+    if key == 's' then player_obj.mv_vec[2] = 1 end
+    if key == 'e' and player_obj.carry_item ~= nil then player_obj:throw_item() end
     if key == 'lshift' then player_obj.v = player_obj.v_sprint end
 end 
 
 function level_keyreleased(key)
-    if key == 'a' then player_obj.mv_vec[1] = 0
-    elseif key == 'd' then player_obj.mv_vec[1] = 0 
-    elseif key == 'w' then player_obj.mv_vec[2] = 0
-    elseif key == 's' then player_obj.mv_vec[2] = 0
-    end
+    if key == 'a' then player_obj.mv_vec[1] = 0 end
+    if key == 'd' then player_obj.mv_vec[1] = 0 end
+    if key == 'w' then player_obj.mv_vec[2] = 0 end
+    if key == 's' then player_obj.mv_vec[2] = 0 end
     if key == 'lshift' then player_obj.v = player_obj.mv_v end 
 end 
 
@@ -107,9 +124,9 @@ function obj_overlap(obj, player_obj)
            and math.abs(obj.y - player_obj.y) < obj.oy + player_obj.oy
 end 
 
-function obj_belt_overlap(obj, belt)
-    return math.abs(obj.x - belt.x) < obj.ox + belt.w 
-           and math.abs(obj.y - belt.y) < obj.oy + belt.h
+function obj_rect_overlap(obj, rect)
+    return math.abs(obj.x - rect.x) < obj.ox + rect.w 
+           and math.abs(obj.y - rect.y) < obj.oy + rect.h
 end 
 
 function mouse_overlap(obj, x, y)
@@ -153,9 +170,19 @@ end
 
 function item_belts_col(obj, belts)
     for i=1,belts do
-        if obj_belt_overlap(obj, objects[i]) and not obj.is_on_belt then 
+        if obj_rect_overlap(obj, objects[i]) and not obj.is_on_belt then 
             return i
         end
     end 
     return nil 
+end 
+
+function item_cluster_col(obj, clusters)
+    for i=1,clusters do 
+        i = belts + i 
+        if obj_rect_overlap(obj, objects[i]) and obj.is_on_belt then 
+            return i
+        end 
+    end
+    return nil
 end 

@@ -1,13 +1,13 @@
 belt = class:new() 
 
-function belt:init(x, y, w, h, items, item_cooldown, colors, belts)
+function belt:init(x, y, w, h, items, item_cooldown, colors, item_spawn_pos)
     self.x, self.y = x, y
     self.y_item = self.y + itemsize / 2
     self.h, self.w = h, w
     self.items = items
     self.item_cooldown = item_cooldown 
     self.colors = colors 
-    self.belts = belts 
+    self.item_spawn_pos = item_spawn_pos
     self.color = {0.9, 0.7, 0.2, 1}  
 
     self.t = 0 
@@ -30,7 +30,7 @@ end
 function belt:next_item(objects) 
     self.t = 0 
     self.item_count = self.item_count + 1
-    table.insert(objects, self.belts+1, self:spawn_item())
+    table.insert(objects, self.item_spawn_pos, self:spawn_item())
     --                    ^ belts always come first  
 end
 
