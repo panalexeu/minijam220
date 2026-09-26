@@ -1,13 +1,15 @@
 belt = class:new() 
 
 function belt:init(x, y, w, h, items, item_cooldown, colors, belts)
-    self.x, self.y = x, y 
+    self.x, self.y = x, y
+    self.y_item = self.y + itemsize / 2
     self.h, self.w = h, w
     self.items = items
     self.item_cooldown = item_cooldown 
     self.colors = colors 
     self.belts = belts 
-    
+    self.color = {0.9, 0.7, 0.2, 1}  
+
     self.t = 0 
     self.item_count = 0
     self.mv_vec = {1, 0} -- mv in right direction 
@@ -19,7 +21,7 @@ function belt:spawn_item()
     local gravity = 600
     local aurasize = 32
     local color = self.colors[love.math.random(#self.colors)]
-    local item = item:new(self.x, self.y, belt_v, v, gravity, aurasize, color) 
+    local item = item:new(self.x, self.y_item, belt_v, v, gravity, aurasize, color) 
     item.mv_vec = self.mv_vec 
     item.is_on_belt = true
     return item 
@@ -40,7 +42,7 @@ function belt:update(dt, objects)
 end
 
 function belt:draw() 
-    love.graphics.setColor(0,0,0,1)
+    love.graphics.setColor(self.color)
     love.graphics.rectangle('fill', self.x, self.y, self.w, self.h)
 end 
 

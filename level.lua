@@ -3,10 +3,11 @@ function level_load()
 
     player_obj = player:new(game_w/2 , game_h/2, 100, 48)
     item_obj = item:new(game_w/2+32, game_h/2+32, 120, 240, 600, 32, pink)
-    belts = 2
+    belts = 2 -- belts'n'clusters 
     objects = {
-        belt:new(16, 32, game_w - 32, 12, 20, 2, {green, pink, white, yellow}, belts),
-        belt:new(16, game_h - 32, game_w - 32, 12, 0, 0, {}, belts),
+        belt:new(16, 64, game_w - 32, 12, 20, 2, {green, pink, white, yellow}, belts),
+        cluster:new(game_w-16, 64, game_w, 12, pink, 32),
+        belt:new(16, game_h - 64, game_w - 32, 12, 0, 0, {}, belts),
         item_obj,
         player_obj, 
     }
@@ -42,7 +43,7 @@ function level_update(dt)
                 if belt_i ~= nil then
                     local belt_obj = objects[belt_i]
                     obj.is_on_belt = true 
-                    obj.y = belt_obj.y 
+                    obj.y = belt_obj.y_item 
                     obj.mv_vec = belt_obj.mv_vec
                     sounds['start']:clone():play()
                 end      

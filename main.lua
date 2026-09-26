@@ -11,6 +11,7 @@ function love.load()
     require "aura"
     require "tile"
     require "belt"
+    require "cluster"
 
     -- game variables/constants 
     gamestate = 'load'
