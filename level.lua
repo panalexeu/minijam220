@@ -7,8 +7,9 @@ function level_load()
     -- objects 
     player_obj = player:new(game_w/2 , game_h/2, 100, 48)
     item_obj = item:new(game_w/2+32, game_h/2+32, 120, 240, 600, 32, pink)
-    -- objects order: belts, clusters, items, player
+    -- strict! objects order: belts, clusters, items, player
     belts, clusters = 2, 2 
+    clusters_color = {pink, yellow}
     item_spawn_offset = belts + clusters + 1
     objects = {
         belt:new(
@@ -17,7 +18,7 @@ function level_load()
             game_w - 32, 
             12, 
             240, 
-            20, 
+            10, 
             1.5, 
             {green, pink, white, yellow}, 
             item_spawn_offset
@@ -33,8 +34,8 @@ function level_load()
             {}, 
             item_spawn_offset
         ),
-        cluster:new(game_w-16, 64, 16, 12, pink),
-        cluster:new(game_w-16, game_h-64, 16, 12, yellow),
+        cluster:new(game_w-16, 64, 16, 12, clusters_color[1]),
+        cluster:new(game_w-16, game_h-64, 16, 12, clusters_color[2]),
         player_obj, 
     }
 
@@ -47,13 +48,14 @@ end
 
 function level_update(dt)
     for i,obj in ipairs(objects) do 
-        
+        -- updates
         if obj.__baseclass == belt then 
             obj:update(dt, objects)
         else 
             obj:update(dt)
         end
-
+        
+        -- objects sepcific 
         if obj.__baseclass == item then
             -- player-object collision 
             if obj_overlap(obj, player_obj) 
@@ -96,9 +98,12 @@ function level_update(dt)
             bounding_box_player_col(obj)
         elseif obj.__baseclass == score then 
             score_cleanup(i, obj)
-        end
+        end 
+    end
 
-    end 
+    if is_buyout_phase() then 
+        buyout()
+    end
 end 
 
 function level_draw() 
@@ -218,6 +223,8 @@ function item_cluster_col(obj, clusters)
     return nil
 end 
 
+-- stuff 
+
 function spawn_score(x,y,bid)
     table.insert(objects, score:new(bid, x, y, 75))
 end
@@ -225,5 +232,30 @@ end
 function score_cleanup(i, obj)
     if obj.t >= obj.lifetime then 
         table.remove(objects, i)
+    end
+end 
+
+function is_buyout_phase() 
+    s = 0 
+    for i=1,belts do 
+        s = s + objects[i].item_count
+    end 
+    return s == 0
+end 
+
+function buyout()
+    for i,obj in ipairs(objects) do
+        if obj.__baseclass == item then 
+            if contains(obj.color, clusters_color) == -1 then
+                cur_score = cur_score + bid 
+                spawn_score(obj.x,obj.y,bid)
+                table.remove(objects,i)
+                sounds['purchuase']:play()
+            else 
+                cur_score = cur_score - bid 
+                spawn_score(obj.x,obj.y,-bid)
+                table.remove(objects,i)
+            end 
+        end 
     end
 end 
