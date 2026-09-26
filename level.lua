@@ -2,7 +2,7 @@ function level_load()
     gamestate = 'level'
 
     player_obj = player:new(game_w/2 , game_h/2, 100, 100, 48)
-    item_obj = item:new(game_w/2+32, game_h/2+32, 240 * 2, 600 * 2, 32, pink)
+    item_obj = item:new(game_w/2+32, game_h/2+32, 120, 240, 600, 32, pink)
     belt_obj = belt:new(16, 32, game_w - 32, 12, 3, 2, {green, pink, white, yellow})
     objects = {
         belt_obj,
@@ -27,7 +27,11 @@ function level_update(dt)
         end
 
         if obj.__baseclass == item then
-            if obj_overlap(obj, player_obj) then obj.mv_vec = {0,0} player_obj.carry_item = obj end     
+            if obj_overlap(obj, player_obj) and obj:pickable() then 
+                    obj.mv_vec = {0,0} 
+                    obj.is_on_belt = false
+                    player_obj.carry_item = obj 
+            end     
         elseif obj.__baseclass == player then 
             bounding_box_player_col(obj)
         end

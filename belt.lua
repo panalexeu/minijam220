@@ -13,11 +13,12 @@ function belt:init(x, y, w, h, items, item_cooldown, colors)
 end 
 
 function belt:spawn_item() 
-    local v = 240 
+    local belt_v = 120
+    local v = 240
     local gravity = 600
     local aurasize = 32
     local color = self.colors[love.math.random(#self.colors)]
-    local item = item:new(self.x, self.y, v, gravity, aurasize, color) 
+    local item = item:new(self.x, self.y, belt_v, v, gravity, aurasize, color) 
     item.mv_vec = self.mv_vec 
     item.is_on_belt = true
     return item 

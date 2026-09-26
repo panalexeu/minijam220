@@ -121,7 +121,9 @@ function player:drag_item()
 end 
 
 function player:throw_item() 
-    self.carry_item.mv_vec = self.dir_vec
+    self.carry_item.mv_vec = self.dir_vec 
+    -- set pick cooldown to not pick an item immediately after you throw it 
+    self.carry_item.t = self.carry_item.pick_cooldown 
     self.carry_item = nil
     self.action = 'walk'
 end 
