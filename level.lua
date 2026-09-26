@@ -3,10 +3,10 @@ function level_load()
 
     player_obj = player:new(game_w/2 , game_h/2, 100, 48)
     item_obj = item:new(game_w/2+32, game_h/2+32, 120, 240, 600, 32, pink)
-    belts = 1
-    belt_obj = belt:new(16, 32, game_w - 32, 12, 3, 2, {green, pink, white, yellow}, belts)
+    belts = 2
     objects = {
-        belt_obj,
+        belt:new(16, 32, game_w - 32, 12, 20, 2, {green, pink, white, yellow}, belts),
+        belt:new(16, game_h - 32, game_w - 32, 12, 0, 0, {}, belts),
         item_obj,
         player_obj, 
     }
@@ -76,7 +76,6 @@ function draw_back()
 end 
 
 -- controls 
-
 function level_keypressed(key)
     if key == 'a' then player_obj.mv_vec[1] = -1
     elseif key == 'd' then player_obj.mv_vec[1] = 1 
