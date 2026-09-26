@@ -2,7 +2,7 @@ function level_load()
     gamestate = 'level'
     blind = 10000
     bid = 1000
-    score = 0 
+    cur_score = 0 
 
     -- objects 
     player_obj = player:new(game_w/2 , game_h/2, 100, 48)
@@ -63,7 +63,6 @@ function level_update(dt)
                 obj.mv_vec = {0,0} 
                 obj.is_on_belt = false
                 player_obj.carry_item = obj 
-                sounds['purchuase']:clone():play()
             -- collisions that are applied for items that are not carried by player 
             elseif obj ~= player_obj.carry_item then
                 -- object-belt collision 
@@ -80,9 +79,12 @@ function level_update(dt)
                 if cluster_i ~= nil then 
                     local cluster_obj = objects[cluster_i]
                     if obj.color == cluster_obj.color then 
-                        score = score + bid
+                        cur_score = cur_score + bid
+                        spawn_score(obj.x,obj.y, bid)
+                        sounds['purchuase']:clone():play()
                     else 
-                        score = score - bid 
+                        cur_score = cur_score - bid 
+                        spawn_score(obj.x,obj.y, -bid)
                     end 
                     table.remove(objects, i)
                 end
@@ -93,6 +95,8 @@ function level_update(dt)
             end 
         elseif obj.__baseclass == player then 
             bounding_box_player_col(obj)
+        elseif obj.__baseclass == score then 
+            score_cleanup(i, obj)
         end
 
     end 
@@ -118,7 +122,7 @@ function level_draw()
     love.graphics.setBlendMode('alpha')
 
     -- print score 
-    local s = 'score*' .. score .. ' ' .. 'blind*' .. blind 
+    local s = 'score*' .. cur_score .. ' ' .. 'blind*' .. blind 
     properprint(s, 0, game_h - 8, 1)
 end 
 
@@ -213,4 +217,14 @@ function item_cluster_col(obj, clusters)
         end 
     end
     return nil
+end 
+
+function spawn_score(x,y,bid)
+    table.insert(objects, score:new(bid, x, y, 75))
+end
+
+function score_cleanup(i, obj)
+    if obj.t >= obj.lifetime then 
+        table.remove(objects, i)
+    end
 end 

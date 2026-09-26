@@ -12,6 +12,7 @@ function love.load()
     require "tile"
     require "belt"
     require "cluster"
+    require "score"
 
     -- game variables/constants 
     gamestate = 'load'
