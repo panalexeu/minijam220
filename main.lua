@@ -15,11 +15,11 @@ function love.load()
     require "score"
 
     -- game variables/constants 
-    gamestate = 'load'
+    gamestate = 'load'  -- load, level, nextlvl
     tilesize = 16 
     itemsize = 8
-    lvl = 4
-
+    lvl = 1
+    
     -- window/screen stuff 
     game_w, game_h = 400, 224 
     window_w, window_h = 800, 448
@@ -94,6 +94,9 @@ end
 function love.update(dt)
     if gamestate == 'level' then 
         level_update(dt)
+    elseif gamestate == 'nextlvl' then 
+        lvl = lvl + 1
+        level_load(lvl)
     end 
 end 
 

@@ -4,6 +4,7 @@ function level_load(lvl)
     bid = 0
     cur_score = 0 
     buyout_t = 0 
+    level_end_t = 0
     
     -- objects 
     player_obj = nil
@@ -16,6 +17,7 @@ function level_load(lvl)
         blind = 5000
         bid = 1000 
         buyout_t = 5
+        level_end_t = buyout_t + 2
         player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 48)
         belts, clusters = 1,1
         cluster_color = {green}
@@ -45,6 +47,7 @@ function level_load(lvl)
         blind = 5000
         bid = 1000 
         buyout_t = 5
+        level_end_t = buyout_t + 2
         player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 48)
         belts, clusters = 2,2
         cluster_color = {green, blue}
@@ -92,6 +95,7 @@ function level_load(lvl)
         blind = 13000
         bid = 1000 
         buyout_t = 5
+        level_end_t = buyout_t + 2
         player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 48)
         belts, clusters = 1,1
         cluster_color = {red}
@@ -121,6 +125,7 @@ function level_load(lvl)
         blind = 15000
         bid = 1000 
         buyout_t = 5
+        level_end_t = buyout_t + 2
         player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 48)
         belts, clusters = 2,2
         cluster_color = {red, cyan}
@@ -169,6 +174,7 @@ function level_load(lvl)
         blind = 20000
         bid = 1000 
         buyout_t = 5
+        level_end_t = buyout_t + 2
         player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 48)
         belts, clusters = 3,3
         cluster_color = {red, white, cyan}
@@ -296,10 +302,14 @@ function level_update(dt)
 
     if is_buyout_phase() then 
         buyout_t = buyout_t - dt 
+        level_end_t = level_end_t - dt
     end
     if buyout_t <= 0 then 
         buyout()
     end 
+    if level_end_t <= 0 then 
+        gamestate = 'nextlvl'
+    end
 end 
 
 function level_draw() 
