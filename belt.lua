@@ -1,13 +1,14 @@
 belt = class:new() 
 
-function belt:init(x, y, w, h, item_count, item_cooldown, colors)
+function belt:init(x, y, w, h, items, item_cooldown, colors)
     self.x, self.y = x, y 
     self.h, self.w = h, w
-    self.item_count = item_count
+    self.items = items
     self.item_cooldown = item_cooldown 
     self.colors = colors 
     
     self.t = 0 
+    self.item_count = 0
     self.mv_vec = {1, 0} -- mv in right direction 
 end 
 
@@ -24,13 +25,14 @@ end
 
 function belt:next_item(objects) 
     self.t = 0 
+    self.item_count = self.item_count + 1
     table.insert(objects, 2, self:spawn_item())
     --                    ^ 2 cause the first object to draw is the belt 
 end
 
 function belt:update(dt, objects)
     self.t =  self.t + dt
-    if self.t >= self.item_cooldown then 
+    if self.t >= self.item_cooldown and self.item_count < self.items then 
         self:next_item(objects)
     end 
 end

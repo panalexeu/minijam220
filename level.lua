@@ -3,7 +3,7 @@ function level_load()
 
     player_obj = player:new(game_w/2 , game_h/2, 100, 100, 48)
     item_obj = item:new(game_w/2+32, game_h/2+32, 240 * 2, 600 * 2, 32, pink)
-    belt_obj = belt:new(16, 32, game_w - 32, 12, 10, 4, {green, pink, white, yellow})
+    belt_obj = belt:new(16, 32, game_w - 32, 12, 3, 2, {green, pink, white, yellow})
     objects = {
         belt_obj,
         item_obj,
@@ -27,8 +27,7 @@ function level_update(dt)
         end
 
         if obj.__baseclass == item then
-            bounding_box_item_col(obj)
-            if obj_overlap(obj, player_obj) and obj:holdable() then player_obj.carry_item = obj end     
+            if obj_overlap(obj, player_obj) then obj.mv_vec = {0,0} player_obj.carry_item = obj end     
         elseif obj.__baseclass == player then 
             bounding_box_player_col(obj)
         end
