@@ -29,18 +29,22 @@ function level_update(dt)
 
         if obj.__baseclass == item then
             -- player-object collision 
-            if obj_overlap(obj, player_obj) and obj:pickable() then 
+            if obj_overlap(obj, player_obj) 
+               and obj:pickable() 
+               and obj ~= player_obj.carry_item then 
                 obj.mv_vec = {0,0} 
                 obj.is_on_belt = false
                 player_obj.carry_item = obj 
+                sounds['purchuase']:clone():play()
             -- object-belt collision 
-            else
+            elseif obj ~= player_obj.carry_item then
                 local belt_i = item_belts_col(obj, belts)
                 if belt_i ~= nil then
                     local belt_obj = objects[belt_i]
                     obj.is_on_belt = true 
                     obj.y = belt_obj.y 
                     obj.mv_vec = belt_obj.mv_vec
+                    sounds['start']:clone():play()
                 end      
             end 
         elseif obj.__baseclass == player then 

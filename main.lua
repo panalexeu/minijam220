@@ -53,7 +53,7 @@ function love.load()
     load_quads('player_su', 26, 1, 16, 4)
     load_quads('player_sl', 26, 2, 16, 4)
     load_quads('player_sr', 26, 3, 16, 4)
-
+    -- other
     load_sprite('ore', 'ore.png')
     load_quads('ore_df', 0, 0, 8, 1)
     load_sprite('oreblock', 'oreblock.png') 
@@ -62,6 +62,12 @@ function love.load()
     load_sprite('rail', 'rail.png')
     load_quads('rail_df', 0, 0, 16, 1)
     load_sprite('back', 'back.png')
+
+    sounds = {}
+    load_sound('start', 'start.wav')
+    load_sound('catch', 'catch.wav')
+    load_sound('land', 'land.wav')
+    load_sound('purchuase', 'purchuase.wav')
 
     level_load()
 end 
@@ -119,4 +125,8 @@ end
 
 function mousepos2gamepos(x, y)
     return (x - screen_offset_x) / screen_scale, (y - screen_offset_y) / screen_scale
+end
+
+function load_sound(key, path)
+    sounds[key] = love.audio.newSource('assets/sound/' .. path, 'static')
 end
