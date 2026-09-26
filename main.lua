@@ -18,7 +18,8 @@ function love.load()
     gamestate = 'load'
     tilesize = 16 
     itemsize = 8
-    
+    lvl = 1
+
     -- window/screen stuff 
     game_w, game_h = 400, 224 
     window_w, window_h = 800, 448
@@ -75,7 +76,7 @@ function love.load()
     load_sound('land', 'land.wav')
     load_sound('purchuase', 'purchuase.wav')
 
-    level_load()
+    level_load(lvl)
 end 
 
 function love.draw() 

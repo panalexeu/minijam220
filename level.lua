@@ -1,44 +1,55 @@
-function level_load() 
+function level_load(lvl) 
     gamestate = 'level'
-    blind = 10000
-    bid = 1000
+    blind = 0
+    bid = 0
     cur_score = 0 
-    buyout_t = 5 
-
+    buyout_t = 0 
+    
     -- objects 
-    player_obj = player:new(game_w/2 , game_h/2, 100, 48)
-    item_obj = item:new(game_w/2+32, game_h/2+32, 120, 240, 600, 32, pink)
+    player_obj = nil
+    belts,clusters = 0,0
+    clusters_color = {}
     -- strict! objects order: belts, clusters, items, player
-    belts, clusters = 2, 2 
-    clusters_color = {pink, yellow}
-    item_spawn_offset = belts + clusters + 1
-    objects = {
-        belt:new(
-            16, 
-            64, 
-            game_w - 32, 
-            12, 
-            240, 
-            10, 
-            1.5, 
-            {green, pink, white, yellow}, 
-            item_spawn_offset
-        ),
-        belt:new(
-            16, 
-            game_h - 64, 
-            game_w - 32, 
-            12, 
-            240, 
-            0, 
-            0, 
-            {}, 
-            item_spawn_offset
-        ),
-        cluster:new(game_w-16, 64, 16, 12, clusters_color[1]),
-        cluster:new(game_w-16, game_h-64, 16, 12, clusters_color[2]),
-        player_obj, 
-    }
+    objects = {}
+
+    if lvl == 1 then 
+        blind = 5000
+        bid = 1000 
+        buyout_t = 5
+        player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 64)
+        belts, clusters = 1,1
+        cluster_color = {green}
+        item_spawn_offset = belts + clusters + 1
+        objects = {
+            belt:new(
+                16,             -- x
+                game_h / 2 - 6, -- y 
+                game_w - 32,    -- w
+                12,             -- h 
+                120,            -- v 
+                10,              -- items
+                2,              -- item_cooldown 
+                {green, blue},  -- colors
+                item_spawn_offset
+            ), 
+            cluster:new(
+                game_w - 16,    -- x 
+                game_h / 2 - 6, -- y 
+                16,             -- w 
+                12,             -- h 
+                cluster_color[1]
+            ),
+            player_obj
+        }
+    elseif lvl ==  2 then 
+    
+    elseif lvl ==  3 then 
+    
+    elseif lvl ==  4 then 
+    
+    elseif lvl ==  5 then 
+
+    end 
 
     -- lighting system 
     light_canvas = love.graphics.newCanvas(game_w, game_h)
