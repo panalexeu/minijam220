@@ -302,6 +302,216 @@ function level_load(lvl)
             ),
             player_obj
         } 
+    elseif lvl == 7 then 
+        blind = 40000
+        bid = 1000 
+        buyout_t = 5
+        level_end_t = buyout_t + 2
+        player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 48)
+        belts, clusters = 1,1
+        cluster_color = {pink}
+        item_spawn_offset = belts + clusters + 1
+        objects = {
+            belt:new(
+                16,             
+                game_h / 2 - 6,  
+                game_w - 32,    
+                12,              
+                120,             
+                43,             
+                1.1,              
+                {green, blue, cyan, purple, pink, red, orange, yellow, white, teal},  
+                item_spawn_offset
+            ), 
+            cluster:new(
+                game_w - 16,    -- x 
+                game_h / 2 - 6, -- y 
+                16,             -- w 
+                12,             -- h 
+                cluster_color[1]
+            ),
+            player_obj
+        }
+    elseif lvl == 8 then 
+        blind = 30000
+        bid = 1000 
+        buyout_t = 5
+        level_end_t = buyout_t + 2
+        player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 48)
+        belts, clusters = 4,4
+        cluster_color = {blue, yellow, white, green}
+        item_spawn_offset = belts + clusters + 1
+        objects = {
+            belt:new(
+                16,            
+                32,             
+                game_w - 32,    
+                12,              
+                120,
+                0,
+                0,
+                {},
+                item_spawn_offset
+            ), 
+            belt:new(
+                16,             
+                64,  
+                game_w - 32,    
+                12,              
+                80,             
+                13,             
+                3,           
+                {yellow, blue},
+                item_spawn_offset
+            ),
+            belt:new(
+                16,            
+                96,   
+                game_w - 32,   
+                12,             
+                80,            
+                17,             
+                2,             
+                {green, white},  
+                item_spawn_offset
+            ), 
+            belt:new(
+                16,            
+                128,   
+                game_w - 32,   
+                12,             
+                120,            
+                0,             
+                0,             
+                {},  
+                item_spawn_offset
+            ), 
+            cluster:new(
+                game_w - 16,     
+                32, 
+                16,  
+                12,  
+                cluster_color[1]
+            ),
+            cluster:new(
+                game_w - 16,     
+                64,  
+                16,              
+                12,              
+                cluster_color[2]
+            ),
+            cluster:new(
+                game_w - 16,     
+                96,     
+                16,              
+                12,              
+                cluster_color[3]
+            ),
+            cluster:new(
+                game_w - 16,     
+                128,     
+                16,              
+                12,              
+                cluster_color[4]
+            ),
+            player_obj
+        } 
+    elseif lvl == 9 then
+        blind = 35000
+        bid = 1000 
+        buyout_t = 5
+        level_end_t = buyout_t + 2
+        player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 48)
+        belts, clusters = 2,2
+        cluster_color = {yellow, blue}
+        item_spawn_offset = belts + clusters + 1
+        objects = {
+            belt:new(
+                16,           
+                72 ,  
+                game_w - 32,
+                12,          
+                100,         
+                17,         
+                2,           
+                {blue},
+                item_spawn_offset
+            ), 
+            belt:new(
+                16,            
+                game_h - 72 ,   
+                game_w - 32,   
+                12,             
+                60,            
+                18,             
+                2,              
+                {yellow},  
+                item_spawn_offset
+            ), 
+            cluster:new(
+                game_w - 16,    
+                72,  
+                16,            
+                12,            
+                cluster_color[1]
+            ),
+            cluster:new(
+                game_w - 16,     
+                game_h - 72,     
+                16,              
+                12,              
+                cluster_color[2]
+            ),
+            player_obj
+        } 
+    elseif lvl == 10 then 
+        blind = 25000
+        bid = 1000 
+        buyout_t = 5
+        level_end_t = buyout_t + 2
+        player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 48)
+        belts, clusters = 2,2
+        cluster_color = {white, teal}
+        item_spawn_offset = belts + clusters + 1
+        objects = {
+            belt:new(
+                16,           
+                96 ,  
+                game_w - 32,
+                12,          
+                120,         
+                25,         
+                1.25,           
+                {green, blue, cyan, purple, pink, red, orange, yellow, white, teal},
+                item_spawn_offset
+            ), 
+            belt:new(
+                16,            
+                game_h - 96 ,   
+                game_w - 32,   
+                12,             
+                60,            
+                0,             
+                0,              
+                {yellow},  
+                item_spawn_offset
+            ), 
+            cluster:new(
+                game_w - 16,    
+                96,  
+                16,            
+                12,            
+                cluster_color[1]
+            ),
+            cluster:new(
+                game_w - 16,     
+                game_h - 96,     
+                16,              
+                12,              
+                cluster_color[2]
+            ),
+            player_obj
+        } 
     end 
 
     -- lighting system 
