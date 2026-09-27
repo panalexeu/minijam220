@@ -61,6 +61,7 @@ function player:init(x, y, mv_v, aurasize)
 end 
 
 function player:update(dt)
+    -- handle particles 
     self.ps:setPosition(self.x, self.y + self.oy - 2)
     if vec_len(self.mv_vec) > 0 then
         self.ps:setEmissionRate(self.v == self.v_sprint and 60 or 25)   -- more when sprinting
