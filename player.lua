@@ -45,9 +45,30 @@ function player:init(x, y, mv_v, aurasize)
     self.aura_ox, self.aura_oy = self.aurasize / 2, self.aurasize / 2
     self.aura_img = create_auraimg(self.aurasize)
     self.aura_clr = {1, 0.85, 0.45, 1}
+
+    -- particles
+    local data = love.image.newImageData(1,1)
+    data:setPixel(0,0,1,1,1,1) -- x,y,r,g,b,a
+    local pimg = love.graphics.newImage(data)
+    self.ps = love.graphics.newParticleSystem(pimg, 50)
+    self.ps:setParticleLifetime(0.3, 0.7)
+    self.ps:setEmissionRate(0)                   -- off until moving
+    self.ps:setSpeed(5, 20)
+    self.ps:setSpread(math.pi * 2)
+    self.ps:setLinearAcceleration(0, -20)        -- drift slightly up
+    self.ps:setColors(0.8, 0.75, 0.7, 0.8,  0.8, 0.75, 0.7, 0)   -- dusty, fading
+    self.ps:setSizes(1.5, 1)
 end 
 
 function player:update(dt)
+    self.ps:setPosition(self.x, self.y + self.oy - 2)
+    if vec_len(self.mv_vec) > 0 then
+        self.ps:setEmissionRate(self.v == self.v_sprint and 60 or 25)   -- more when sprinting
+    else
+        self.ps:setEmissionRate(0)
+    end
+    self.ps:update(dt)
+
     -- normalize mv_vec by its length so there is no diagonal movement speedup
     local norm_vec = vec_d_scalar(self.mv_vec, vec_len(self.mv_vec))
     self.x = self.x + (norm_vec[1] * self.v * dt)
@@ -107,6 +128,7 @@ end
 
 function player:draw() 
     love.graphics.setColor(1,1,1,1) 
+    love.graphics.draw(self.ps)
     love.graphics.draw(self.img, self.quad, self.x, self.y, 0, 1, 1, self.ox, self.oy)
 end 
 
