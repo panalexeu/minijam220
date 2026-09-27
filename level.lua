@@ -332,7 +332,7 @@ function level_draw()
     love.graphics.setBlendMode('alpha')
 
     -- print score 
-    local s = 'score*' .. cur_score .. ' ' .. 'blind*' .. blind 
+    local s = 'score*' .. cur_score .. ' ' .. 'blind*' .. blind  .. ' ' .. 'lvl*' .. lvl
     properprint(s, 0, game_h - 8, 1)
 end 
 
