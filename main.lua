@@ -20,7 +20,7 @@ function love.load()
     tilesize = 16 
     itemsize = 8
     lvl = 1
-    lvls = 5   
+    lvls = 10 
     lvls_state = vec_state_arrange(lvls)
     
     -- window/screen stuff 

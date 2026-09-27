@@ -236,6 +236,72 @@ function level_load(lvl)
             ),
             player_obj
         } 
+    elseif lvl == 6 then 
+        blind = 25000
+        bid = 1000 
+        buyout_t = 5
+        level_end_t = buyout_t + 2
+        player_obj = player:new(game_w/2 , game_h/2 + 32, 100, 48)
+        belts, clusters = 3,3
+        cluster_color = {orange, white, teal}
+        item_spawn_offset = belts + clusters + 1
+        objects = {
+            belt:new(
+                16,            
+                64 ,             
+                game_w - 32,    
+                12,              
+                80,
+                13,
+                2,
+                {white, teal},
+                item_spawn_offset
+            ), 
+            belt:new(
+                16,             
+                game_h / 2 - 6,  
+                game_w - 32,    
+                12,              
+                100,             
+                13,             
+                2,           
+                {orange},
+                item_spawn_offset
+            ),
+            belt:new(
+                16,            
+                game_h - 64 ,   
+                game_w - 32,   
+                12,             
+                120,            
+                0,             
+                0,             
+                {},  
+                item_spawn_offset
+            ), 
+            cluster:new(
+                game_w - 16,     
+                64, 
+                16,  
+                12,  
+                cluster_color[1]
+            ),
+            cluster:new(
+                game_w - 16,     
+                game_h / 2 - 6,  
+                16,              
+                12,              
+                cluster_color[2]
+            ),
+            cluster:new(
+                game_w - 16,     
+                game_h - 64,     
+                16,              
+                12,              
+                cluster_color[3]
+            ),
+            player_obj
+        } 
     end 
 
     -- lighting system 
