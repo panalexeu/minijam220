@@ -517,8 +517,8 @@ function level_load(lvl)
     -- lighting system 
     light_canvas = love.graphics.newCanvas(game_w, game_h)
     -- claude suggested these values: 
-    ambient_color = {0.30, 0.33, 0.45, 1}
-    back_color    = {0.18, 0.17, 0.22, 1}
+    ambient_color = {0.40, 0.44, 0.58, 1}
+    back_color    = {0.24, 0.23, 0.29, 1}
 end 
 
 function level_update(dt)
