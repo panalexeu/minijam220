@@ -559,10 +559,12 @@ function level_update(dt)
                     if obj.color == cluster_obj.color then 
                         cur_score = cur_score + bid
                         spawn_score(obj.x,obj.y, bid)
+                        cluster_obj:emit()
                         sounds['purchuase']:clone():play()
                     else 
                         cur_score = cur_score - bid 
                         spawn_score(obj.x,obj.y, -bid)
+                        cluster_obj:emit()
                         sounds['catch']:clone():play()
                     end 
                     table.remove(objects, i)
