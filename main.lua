@@ -68,6 +68,7 @@ function love.load()
     load_sprite('rail', 'rail.png')
     load_quads('rail_df', 0, 0, 16, 1)
     load_sprite('back', 'back.png')
+    load_sprite('menu_back', 'menu_back.png')
     -- font 
     load_sprite('font', 'font.png')
     fontglyphs = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*-'

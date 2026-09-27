@@ -3,7 +3,7 @@ function menu_load()
     gamestate = 'menu' 
 
     title = 'crystal*sort'
-    instr = '*use arrow keys to select| a level then press enter'
+    instr = 'guide|*use arrow keys to select| a level, then press enter|*press escape to return| to the menu or exit|*use wasd to move|*hold shift to sprint|*to pick up a crystal,| just walk into it|*press e to throw a crystal|*sort crystals by matching| them to the belt color|*crystals that match no belt| color go on the floor|*good luck!'
     offset_x = 8
     offset_y = 12
 end 
@@ -12,12 +12,13 @@ function menu_update(dt)
 end
 
 function menu_draw() 
-    love.graphics.clear(0,0,0,1)
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.draw(sprites['menu_back'], 0, 0, 0, 1, 1)
 
     love.graphics.setColor(yellow)
-    properprint(title, 0, 0, 2)
+    properprint(title, 4, 4, 2)
     love.graphics.setColor(1,1,1,1)
-    properprint(instr, 0, 18, 1)
+    properprint(instr, game_w / 2 - 28, 32, 1)
 
     for i=1,lvls do 
         love.graphics.setColor(red)
