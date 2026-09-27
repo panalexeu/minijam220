@@ -246,6 +246,8 @@ function level_load(lvl)
 end 
 
 function level_update(dt)
+    update_player_input() 
+    
     for i,obj in ipairs(objects) do 
         -- updates
         if obj.__baseclass == belt then 
@@ -343,21 +345,19 @@ end
 
 -- controls 
 function level_keypressed(key)
-    if key == 'a' then player_obj.mv_vec[1] = -1 end
-    if key == 'd' then player_obj.mv_vec[1] = 1 end
-    if key == 'w' then player_obj.mv_vec[2] = -1 end
-    if key == 's' then player_obj.mv_vec[2] = 1 end
     if key == 'e' and player_obj.carry_item ~= nil then player_obj:throw_item() end
-    if key == 'lshift' then player_obj.v = player_obj.v_sprint end
 end 
 
 function level_keyreleased(key)
-    if key == 'a' then player_obj.mv_vec[1] = 0 end
-    if key == 'd' then player_obj.mv_vec[1] = 0 end
-    if key == 'w' then player_obj.mv_vec[2] = 0 end
-    if key == 's' then player_obj.mv_vec[2] = 0 end
-    if key == 'lshift' then player_obj.v = player_obj.mv_v end 
 end 
+
+function update_player_input() 
+    -- cmart player control suggeted by claude: 
+    local kd = love.keyboard.isDown 
+    player_obj.mv_vec[1] = (kd('d') and 1 or 0) - (kd('a') and 1 or 0)
+    player_obj.mv_vec[2] = (kd('s') and 1 or 0) - (kd('w') and 1 or 0)
+    player_obj.v = kd('lshift') and player_obj.v_sprint or player_obj.mv_v
+end
 
 -- collisions 
 function obj_overlap(obj, player_obj)
