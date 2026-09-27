@@ -13,12 +13,15 @@ function love.load()
     require "belt"
     require "cluster"
     require "score"
+    require "menu"
 
     -- game variables/constants 
     gamestate = 'load'  -- load, level, nextlvl
     tilesize = 16 
     itemsize = 8
     lvl = 1
+    lvls = 5   
+    lvls_state = vec_state_arrange(lvls)
     
     -- window/screen stuff 
     game_w, game_h = 400, 224 
@@ -29,7 +32,7 @@ function love.load()
     screen_offset_x = math.floor((window_w - game_w * screen_scale) / 2)
     screen_offset_y = math.floor((window_h - game_h * screen_scale) / 2)
     love.graphics.setDefaultFilter('nearest', 'nearest')
-    love.window.setTitle('minijam220')
+    love.window.setTitle('crystal*sort')
 
     sprites = {} 
     quads = {} 
@@ -76,7 +79,7 @@ function love.load()
     load_sound('land', 'land.wav')
     load_sound('purchuase', 'purchuase.wav')
 
-    level_load(lvl)
+    menu_load()
 end 
 
 function love.draw() 
@@ -84,6 +87,8 @@ function love.draw()
 
     if gamestate == 'level' then 
         level_draw()
+    elseif gamestate == 'menu' then 
+        menu_draw()
     end
 
     love.graphics.setCanvas() 
@@ -97,16 +102,22 @@ function love.update(dt)
     elseif gamestate == 'nextlvl' then 
         lvl = lvl + 1
         level_load(lvl)
+    elseif gamestate == 'menu' then 
+        menu_draw()
     end 
 end 
 
 function love.keypressed(key)
     if gamestate == 'level' then 
         level_keypressed(key)
+    elseif gamestate  == 'menu' then 
+        menu_keypressed(key)
     end 
 
-    if key == 'escape' then 
-        love.event.quit(0)
+    if key == 'escape' and gamestate == 'level' then 
+        gamestate = 'menu'
+    elseif key == 'escape' and gamestate == 'menu' then 
+        love.event.quit()
     end 
 end
 

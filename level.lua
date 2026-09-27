@@ -310,7 +310,7 @@ function level_update(dt)
         buyout()
     end 
     if level_end_t <= 0 then 
-        gamestate = 'nextlvl'
+        gamestate = 'menu'
     end
 end 
 
@@ -463,5 +463,9 @@ function buyout()
                 table.remove(objects,i)
             end 
         end 
+    end
+
+    if cur_score >= blind then 
+        lvls_state[lvl] = true
     end
 end 

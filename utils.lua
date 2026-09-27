@@ -41,9 +41,19 @@ function vec_arrange(l, r)
   return out
 end
 
+function vec_state_arrange(num)
+  if num < 1 then 
+    return nil
+  end 
+  
+  local out = {}
+  for i=1,num do out[i] = false end
+  return out
+end 
+
 function str_vec(vec)
   io.write('vec size ('.. #vec .. '): ')
-  for i=1,#vec do io.write(vec[i], ' ') end
+  for i=1,#vec do io.write(tostring(vec[i]), ' ') end
   print('')
 end 
 
