@@ -541,6 +541,7 @@ function level_update(dt)
                 obj.mv_vec = {0,0} 
                 obj.is_on_belt = false
                 player_obj.carry_item = obj 
+                sounds['land']:clone():play()
             -- collisions that are applied for items that are not carried by player 
             elseif obj ~= player_obj.carry_item then
                 -- object-belt collision 
@@ -550,7 +551,6 @@ function level_update(dt)
                     obj.is_on_belt = true 
                     obj.y = belt_obj.y_item 
                     obj.mv_vec = vec_cat(belt_obj.mv_vec,{})
-                    sounds['start']:clone():play()
                 end
                 --cluster-belt collision 
                 local cluster_i = item_cluster_col(obj, clusters)
@@ -563,6 +563,7 @@ function level_update(dt)
                     else 
                         cur_score = cur_score - bid 
                         spawn_score(obj.x,obj.y, -bid)
+                        sounds['catch']:clone():play()
                     end 
                     table.remove(objects, i)
                 end
@@ -621,7 +622,10 @@ end
 
 -- controls 
 function level_keypressed(key)
-    if key == 'e' and player_obj.carry_item ~= nil then player_obj:throw_item() end
+    if key == 'e' and player_obj.carry_item ~= nil then 
+        player_obj:throw_item()
+        sounds['start']:clone():play()    
+    end
 end 
 
 function level_keyreleased(key)
@@ -737,6 +741,7 @@ function buyout()
                 cur_score = cur_score - bid 
                 spawn_score(obj.x,obj.y,-bid)
                 table.remove(objects,i)
+                 sounds['catch']:play()
             end 
         end 
     end
